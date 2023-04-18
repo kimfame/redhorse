@@ -3,10 +3,14 @@
 import os
 import sys
 
+from redhorse.settings.base import env
+
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'redhorse.settings')
+    os.environ.setdefault(
+        "DJANGO_SETTINGS_MODULE", f"redhorse.settings.{env('ENV_MODE')}"
+    )
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -18,5 +22,5 @@ def main():
     execute_from_command_line(sys.argv)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
