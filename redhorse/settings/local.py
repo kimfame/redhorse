@@ -1,3 +1,4 @@
+from datetime import timedelta
 from .base import *
 
 DEBUG = True
@@ -23,6 +24,9 @@ REST_FRAMEWORK = {
         "rest_framework.renderers.JSONRenderer",
         "rest_framework.renderers.BrowsableAPIRenderer",
     ),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
 }
 
 
@@ -31,3 +35,14 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     f"http://{env('LOCAL_FRONTEND_DOMAIN')}",
 ]
+
+
+# Simple JWT
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=28),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "SIGNING_KEY": env("SIGNING_KEY"),
+}
