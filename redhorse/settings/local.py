@@ -19,7 +19,6 @@ DATABASES = {
 # Django REST Framework
 
 REST_FRAMEWORK = {
-    "DATETIME_FORMAT": "%b %d, %Y",
     "DEFAULT_RENDERER_CLASSES": (
         "rest_framework.renderers.JSONRenderer",
         "rest_framework.renderers.BrowsableAPIRenderer",
