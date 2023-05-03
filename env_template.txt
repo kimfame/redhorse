@@ -1,20 +1,16 @@
 # Environment mode
-
 ENV_MODE=
 
 # Admin URL
-
 ADMIN_URL=
 
 # Secret key
-
 SECRET_KEY=
 
 # JWT
 SIGNING_KEY=
 
 # Database
-
 DB_ENGINE=
 DB_NAME=
 DB_USER=
@@ -23,12 +19,19 @@ DB_HOST=
 DB_PORT=
 
 # Backend domain name
-
 DEV_BACKEND_DOMAIN=
 PROD_BACKEND_DOMAIN=
 
 # Frontend domain name
-
 LOCAL_FRONTEND_DOMAIN=
 DEV_FRONTEND_DOMAIN=
 PROD_FRONTEND_DOMAIN=
+
+# SMS Verification code expiration time in minute
+VERIFICATION_CODE_EXP_TIME=
+
+# Verified phone number expiration time in minute
+VERIFIED_PHONE_NUMBER_EXP_TIME=
+
+# Max passion number
+MAX_PASSION_NUM=

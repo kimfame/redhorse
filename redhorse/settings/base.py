@@ -26,7 +26,12 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-PROJECT_APPS = []
+PROJECT_APPS = [
+    "phone",
+    "passion",
+    "common_code",
+    "basic_profile",
+]
 
 THIRD_PARTY_APPS = [
     "corsheaders",
@@ -100,6 +105,8 @@ USE_I18N = True
 USE_L10N = False
 
 USE_TZ = False
+
+DATE_FORMAT = "Y-m-d"
 
 DATETIME_FORMAT = "Y-m-d H:i:s"
 
@@ -177,5 +184,22 @@ LOGGING = {
             "level": "INFO",
             "propagate": False,
         },
+        "scripts": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+        },
+        "core": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+        },
     },
 }
+
+
+# Red Horse settings
+
+VERIFICATION_CODE_EXP_TIME = env("VERIFICATION_CODE_EXP_TIME", default=3)
+
+VERIFIED_PHONE_NUMBER_EXP_TIME = env("VERIFIED_PHONE_NUMBER_EXP_TIME", default=60)
+
+MAX_PASSION_NUM = env("MAX_PASSION_NUM", default=3)
