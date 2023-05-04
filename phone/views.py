@@ -43,7 +43,7 @@ def verify_verification_code(request):
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
-def get_verified_phone_number(uuid: UUID) -> QuerySet:
+def get_verified_phone_number(uuid: UUID) -> PhoneVerificationHistory:
     start_datetime, end_datetime = get_current_and_past_time(
         settings.VERIFIED_PHONE_NUMBER_EXP_TIME
     )
