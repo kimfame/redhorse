@@ -35,3 +35,6 @@ VERIFIED_PHONE_NUMBER_EXP_TIME=
 
 # Max passion number
 MAX_PASSION_NUM=
+
+# Password reset retry wait time
+PASSWORD_RESET_RETRY_WAIT_TIME=

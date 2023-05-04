@@ -131,5 +131,9 @@ LOGGING = {
             "handlers": ["console", "file"],
             "level": "INFO",
         },
+        "user": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+        },
     },
 }

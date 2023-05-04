@@ -9,7 +9,7 @@ from rest_framework_simplejwt.views import (
 )
 
 from phone.views import send_verification_code, verify_verification_code
-from user.views import UserViewSet
+from user.views import UserViewSet, reset_password
 from basic_profile.views import ProfileViewSet
 
 user_detail = UserViewSet.as_view({"post": "create", "delete": "destroy"})
@@ -27,6 +27,7 @@ urlpatterns = [
     path("phone/verify/", verify_verification_code),
     path("users/", user_detail),
     path("users/change-password/", change_password),
+    path("users/reset-password/", reset_password),
     path("users/me/profile/", profile_detail),
 ]
 

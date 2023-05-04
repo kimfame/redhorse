@@ -31,6 +31,7 @@ PROJECT_APPS = [
     "passion",
     "common_code",
     "basic_profile",
+    "user",
 ]
 
 THIRD_PARTY_APPS = [
@@ -196,10 +197,12 @@ LOGGING = {
 }
 
 
-# Red Horse settings
+# Red Horse settings (Minimum time unit : minute)
 
 VERIFICATION_CODE_EXP_TIME = env("VERIFICATION_CODE_EXP_TIME", default=3)
 
 VERIFIED_PHONE_NUMBER_EXP_TIME = env("VERIFIED_PHONE_NUMBER_EXP_TIME", default=60)
 
 MAX_PASSION_NUM = env("MAX_PASSION_NUM", default=3)
+
+PASSWORD_RESET_RETRY_WAIT_TIME = env("PASSWORD_RESET_RETRY_WAIT_TIME", default=10)
