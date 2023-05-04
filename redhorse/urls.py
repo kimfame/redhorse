@@ -10,11 +10,11 @@ from rest_framework_simplejwt.views import (
 
 from phone.views import send_verification_code, verify_verification_code
 from user.views import UserViewSet, reset_password
-from basic_profile.views import ProfileViewSet
+from basic_profile.views import MyProfileViewSet
 
 user_detail = UserViewSet.as_view({"post": "create", "delete": "destroy"})
 change_password = UserViewSet.as_view({"patch": "partial_update"})
-profile_detail = ProfileViewSet.as_view(
+profile_detail = MyProfileViewSet.as_view(
     {
         "post": "create",
         "get": "retrieve",

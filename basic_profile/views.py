@@ -8,7 +8,7 @@ from basic_profile.serializers import ProfileSerializer
 from common_code.models import CommonCode
 
 
-class ProfileViewSet(viewsets.ViewSet):
+class MyProfileViewSet(viewsets.ViewSet):
     def create(self, request):
         common_code_queryset = self._get_profile_common_code_queryset()
 
