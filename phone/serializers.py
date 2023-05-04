@@ -105,11 +105,12 @@ class PhoneVerificationHistoryUpdateSerializer(serializers.ModelSerializer):
             )
 
     def validate_phone_number(self, value):
-        if is_valid_phone_number(value) is False:
+        if is_valid_phone_number(value):
+            return value
+        else:
             raise serializers.ValidationError(
                 "입력된 휴대폰번호의 형식이 잘못되었습니다. 띄어쓰기 없이 하이픈(-)을 제외하고 입력해주세요."
             )
-        return value
 
     def validate_verification_code(self, value):
         regex = re.compile(r"^\d{6}$")
