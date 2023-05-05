@@ -24,13 +24,17 @@ def is_valid_username(username: str) -> bool:
         return False
 
 
-def is_adult(birthdate: date) -> bool:
+def calculate_age(birthdate: date) -> int:
     today = date.today()
-    age = (
+    return (
         today.year
         - birthdate.year
         - ((today.month, today.day) < (birthdate.month, birthdate.day))
     )
+
+
+def is_adult(birthdate: date) -> bool:
+    age = calculate_age(birthdate)
 
     if age > 18:
         return True

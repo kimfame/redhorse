@@ -3,7 +3,7 @@ import re
 from django.conf import settings
 from rest_framework import serializers
 
-from core.utils import is_adult
+from core.utils import calculate_age, is_adult
 from basic_profile.models import Profile
 from passion.serializers import PassionSerializer
 
@@ -164,3 +164,21 @@ class MyProfileSerializer(serializers.ModelSerializer):
             return value
         else:
             raise serializers.ValidationError("잘못된 위치 정보를 입력하셨습니다.")
+
+
+class OpponentProfileSerializer(serializers.Serializer):
+    uuid = serializers.UUIDField()
+    nickname = serializers.CharField()
+    age = serializers.SerializerMethodField()
+    gender = serializers.CharField()
+    mbti = serializers.CharField()
+    passion = PassionSerializer(many=True)
+    height = serializers.CharField()
+    religion = serializers.CharField()
+    smoking_status = serializers.BooleanField()
+    drinking_status = serializers.CharField()
+    location = serializers.CharField()
+    bio = serializers.CharField()
+
+    def get_age(self, obj):
+        return calculate_age(obj.birthdate)

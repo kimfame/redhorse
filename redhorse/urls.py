@@ -10,17 +10,19 @@ from rest_framework_simplejwt.views import (
 
 from phone.views import send_verification_code, verify_verification_code
 from user.views import UserViewSet, reset_password
-from basic_profile.views import MyProfileViewSet
+from basic_profile.views import MyProfileViewSet, OpponentProfileViewSet
 
 user_detail = UserViewSet.as_view({"post": "create", "delete": "destroy"})
 change_password = UserViewSet.as_view({"patch": "partial_update"})
-profile_detail = MyProfileViewSet.as_view(
+my_profile_detail = MyProfileViewSet.as_view(
     {
         "post": "create",
         "get": "retrieve",
         "patch": "partial_update",
     }
 )
+opponent_profile_detail = OpponentProfileViewSet.as_view({"get": "retrieve"})
+
 
 urlpatterns = [
     path("phone/send-code/", send_verification_code),
@@ -28,7 +30,8 @@ urlpatterns = [
     path("users/", user_detail),
     path("users/change-password/", change_password),
     path("users/reset-password/", reset_password),
-    path("users/me/profile/", profile_detail),
+    path("users/me/profile/", my_profile_detail),
+    path("users/<uuid:uuid>/profile", opponent_profile_detail),
 ]
 
 
