@@ -2,6 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -19,6 +20,7 @@ from common_code.views import (
     ReligionList,
     LocationList,
 )
+from passion.views import PassionViewSet
 
 
 user_detail = UserViewSet.as_view({"post": "create", "delete": "destroy"})
@@ -33,7 +35,11 @@ my_profile_detail = MyProfileViewSet.as_view(
 opponent_profile_detail = OpponentProfileViewSet.as_view({"get": "retrieve"})
 
 
+router = DefaultRouter()
+router.register("passions", PassionViewSet, basename="passion")
+
 urlpatterns = [
+    path("", include(router.urls)),
     path("phone/send-code/", send_verification_code),
     path("phone/verify/", verify_verification_code),
     path("users/", user_detail),
