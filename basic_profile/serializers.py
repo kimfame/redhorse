@@ -5,9 +5,10 @@ from rest_framework import serializers
 
 from core.utils import is_adult
 from basic_profile.models import Profile
+from passion.serializers import PassionSerializer
 
 
-class ProfileSerializer(serializers.ModelSerializer):
+class MyProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = [
@@ -29,6 +30,11 @@ class ProfileSerializer(serializers.ModelSerializer):
             "uuid": {"read_only": True},
         }
 
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret["passion"] = PassionSerializer(instance.passion.all(), many=True).data
+        return ret
+
     def create(self, validated_data):
         user = self.context.get("user")
 
@@ -37,7 +43,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
         validated_data["user"] = user
 
-        return super(ProfileSerializer, self).create(validated_data)
+        return super(MyProfileSerializer, self).create(validated_data)
 
     def update(self, instance, validated_data):
         update_target_fields = [
@@ -59,7 +65,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             if field in update_target_fields
         }
 
-        return super(ProfileSerializer, self).update(instance, new_validated_data)
+        return super(MyProfileSerializer, self).update(instance, new_validated_data)
 
     def validate_birthdate(self, value):
         if is_adult(value) is False:

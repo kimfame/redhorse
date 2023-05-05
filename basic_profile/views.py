@@ -4,7 +4,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 
 from basic_profile.models import Profile
-from basic_profile.serializers import ProfileSerializer
+from basic_profile.serializers import MyProfileSerializer
 from common_code.models import CommonCode
 
 
@@ -12,7 +12,7 @@ class MyProfileViewSet(viewsets.ViewSet):
     def create(self, request):
         common_code_queryset = self._get_profile_common_code_queryset()
 
-        serializer = ProfileSerializer(
+        serializer = MyProfileSerializer(
             data=request.data,
             context={
                 "user": request.user,
@@ -27,15 +27,21 @@ class MyProfileViewSet(viewsets.ViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def retrieve(self, request):
-        profile = get_object_or_404(Profile, user=request.user)
-        serializer = ProfileSerializer(profile)
+        profile = get_object_or_404(
+            Profile.objects.prefetch_related("passion"),
+            user=request.user,
+        )
+        serializer = MyProfileSerializer(profile)
         return Response(serializer.data)
 
     def partial_update(self, request):
-        profile = get_object_or_404(Profile, user=request.user)
+        profile = get_object_or_404(
+            Profile.objects.prefetch_related("passion"),
+            user=request.user,
+        )
         common_code_queryset = self._get_profile_common_code_queryset()
 
-        serializer = ProfileSerializer(
+        serializer = MyProfileSerializer(
             profile,
             data=request.data,
             context={"common_code_queryset": common_code_queryset},

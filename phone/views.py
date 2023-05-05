@@ -1,7 +1,6 @@
 from uuid import UUID
 
 from django.conf import settings
-from django.db.models import QuerySet
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny

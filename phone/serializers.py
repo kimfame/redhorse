@@ -97,8 +97,8 @@ class PhoneVerificationHistoryUpdateSerializer(serializers.ModelSerializer):
             if phone_verification_history.is_verified is False:
                 phone_verification_history.is_verified = True
                 phone_verification_history.save()
-            else:
-                return phone_verification_history
+
+            return phone_verification_history
         else:
             raise serializers.ValidationError(
                 {"verification_code": ["인증번호가 일치하지 않습니다. 다시 입력해주세요."]}
