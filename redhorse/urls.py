@@ -11,6 +11,15 @@ from rest_framework_simplejwt.views import (
 from phone.views import send_verification_code, verify_verification_code
 from user.views import UserViewSet, reset_password
 from basic_profile.views import MyProfileViewSet, OpponentProfileViewSet
+from common_code.views import (
+    GenderList,
+    PreferredGenderList,
+    MBTIList,
+    DrinkingStatusList,
+    ReligionList,
+    LocationList,
+)
+
 
 user_detail = UserViewSet.as_view({"post": "create", "delete": "destroy"})
 change_password = UserViewSet.as_view({"patch": "partial_update"})
@@ -32,6 +41,12 @@ urlpatterns = [
     path("users/reset-password/", reset_password),
     path("users/me/profile/", my_profile_detail),
     path("users/<uuid:uuid>/profile", opponent_profile_detail),
+    path("genders", GenderList.as_view()),
+    path("preferred-genders", PreferredGenderList.as_view()),
+    path("mbti-types", MBTIList.as_view()),
+    path("drinking-status", DrinkingStatusList.as_view()),
+    path("religions", ReligionList.as_view()),
+    path("locations", LocationList.as_view()),
 ]
 
 
