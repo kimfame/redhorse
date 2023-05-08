@@ -44,8 +44,8 @@ CORS_ALLOWED_ORIGINS = [
 # Simple JWT
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=28),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1000),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1000),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
     "SIGNING_KEY": env("SIGNING_KEY"),

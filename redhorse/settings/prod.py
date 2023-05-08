@@ -1,4 +1,7 @@
+from datetime import timedelta
+
 from .base import *
+
 
 DEBUG = False
 
@@ -37,6 +40,17 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     f"https://{env('PROD_FRONTEND_DOMAIN')}",
 ]
+
+
+# Simple JWT
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=28),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "SIGNING_KEY": env("SIGNING_KEY"),
+}
 
 
 # Admin URL

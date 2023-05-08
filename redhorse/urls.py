@@ -21,9 +21,14 @@ from common_code.views import (
     LocationList,
 )
 from passion.views import PassionViewSet
+from profile_picture.views import ProfilePictureViewSet
 
-
-user_detail = UserViewSet.as_view({"post": "create", "delete": "destroy"})
+user_detail = UserViewSet.as_view(
+    {
+        "post": "create",
+        "delete": "destroy",
+    }
+)
 change_password = UserViewSet.as_view({"patch": "partial_update"})
 my_profile_detail = MyProfileViewSet.as_view(
     {
@@ -33,6 +38,19 @@ my_profile_detail = MyProfileViewSet.as_view(
     }
 )
 opponent_profile_detail = OpponentProfileViewSet.as_view({"get": "retrieve"})
+
+profile_picture_list = ProfilePictureViewSet.as_view(
+    {
+        "get": "list",
+        "post": "create",
+    }
+)
+profile_picture_detail = ProfilePictureViewSet.as_view(
+    {
+        "patch": "partial_update",
+        "delete": "destroy",
+    }
+)
 
 
 router = DefaultRouter()
@@ -47,6 +65,8 @@ urlpatterns = [
     path("users/reset-password/", reset_password),
     path("users/me/profile/", my_profile_detail),
     path("users/<uuid:uuid>/profile", opponent_profile_detail),
+    path("users/me/profile-pictures/", profile_picture_list),
+    path("users/me/profile-pictures/<uuid:uuid>/", profile_picture_detail),
     path("genders", GenderList.as_view()),
     path("preferred-genders", PreferredGenderList.as_view()),
     path("mbti-types", MBTIList.as_view()),

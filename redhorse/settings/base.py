@@ -32,6 +32,7 @@ PROJECT_APPS = [
     "common_code",
     "basic_profile",
     "user",
+    "profile_picture",
 ]
 
 THIRD_PARTY_APPS = [
@@ -206,3 +207,5 @@ VERIFIED_PHONE_NUMBER_EXP_TIME = env("VERIFIED_PHONE_NUMBER_EXP_TIME", default=6
 MAX_PASSION_NUM = env("MAX_PASSION_NUM", default=3)
 
 PASSWORD_RESET_RETRY_WAIT_TIME = env("PASSWORD_RESET_RETRY_WAIT_TIME", default=10)
+
+MAX_PROFILE_PICTURE_NUM = env("MAX_PROFILE_PICTURE_NUM", default=9)

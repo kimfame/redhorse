@@ -38,3 +38,6 @@ MAX_PASSION_NUM=
 
 # Password reset retry wait time
 PASSWORD_RESET_RETRY_WAIT_TIME=
+
+# Max profile picture number
+MAX_PROFILE_PICTURE_NUM=

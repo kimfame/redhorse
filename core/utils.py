@@ -1,9 +1,15 @@
 import re
 import string
+import sys
 
 from datetime import date, datetime, timedelta
+from io import BytesIO
 from secrets import choice
 from typing import Tuple
+
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.db.models import ImageField
+from PIL import Image
 
 
 def is_valid_phone_number(phone_number: str) -> bool:
@@ -51,3 +57,22 @@ def get_current_and_past_time(minutes: int) -> Tuple[datetime, datetime]:
 
 def get_random_string(len: int) -> str:
     return "".join([choice(string.ascii_letters + string.digits) for _ in range(len)])
+
+
+def compress_image(image: ImageField):
+    pil_image = Image.open(image)
+    pil_image = pil_image.convert("RGB")
+
+    stream_image = BytesIO()
+    pil_image.save(stream_image, format="JPEG", quality=70)
+    stream_image.seek(0)
+
+    new_image = InMemoryUploadedFile(
+        file=stream_image,
+        field_name="ImageField",
+        name=image.name,
+        content_type="image/jpeg",
+        size=sys.getsizeof(stream_image),
+        charset=None,
+    )
+    return new_image
