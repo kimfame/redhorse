@@ -11,7 +11,7 @@ from rest_framework_simplejwt.views import (
 
 from phone.views import send_verification_code, verify_verification_code
 from user.views import UserViewSet, reset_password
-from basic_profile.views import MyProfileViewSet, OpponentProfileViewSet
+from user_profile.views import MyProfileViewSet, OppositeProfileViewSet
 from common_code.views import (
     GenderList,
     PreferredGenderList,
@@ -38,7 +38,7 @@ my_profile_detail = MyProfileViewSet.as_view(
         "patch": "partial_update",
     }
 )
-opponent_profile_detail = OpponentProfileViewSet.as_view({"get": "retrieve"})
+opposite_profile_detail = OppositeProfileViewSet.as_view({"get": "retrieve"})
 
 profile_picture_list = ProfilePictureViewSet.as_view(
     {
@@ -66,7 +66,7 @@ urlpatterns = [
     path("users/change-password/", change_password),
     path("users/reset-password/", reset_password),
     path("users/me/profile/", my_profile_detail),
-    path("users/<uuid:uuid>/profile", opponent_profile_detail),
+    path("users/<uuid:uuid>/profile", opposite_profile_detail),
     path("users/me/profile-pictures/", profile_picture_list),
     path("users/me/profile-pictures/<uuid:uuid>/", profile_picture_detail),
     path("genders", GenderList.as_view()),

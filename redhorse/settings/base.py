@@ -30,7 +30,7 @@ PROJECT_APPS = [
     "phone",
     "passion",
     "common_code",
-    "basic_profile",
+    "user_profile",
     "user",
     "profile_picture",
     "match",

@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
 from match.models import Match
-from basic_profile.models import Profile
+from user_profile.models import Profile
 
 
 class MatchSerializer(serializers.Serializer):

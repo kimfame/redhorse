@@ -3,8 +3,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 
-from basic_profile.models import Profile
-from basic_profile.serializers import MyProfileSerializer, OpponentProfileSerializer
+from user_profile.models import Profile
+from user_profile.serializers import MyProfileSerializer, OppositeProfileSerializer
 from common_code.models import CommonCode
 
 
@@ -67,11 +67,11 @@ class MyProfileViewSet(viewsets.ViewSet):
         )
 
 
-class OpponentProfileViewSet(viewsets.ViewSet):
+class OppositeProfileViewSet(viewsets.ViewSet):
     def retrieve(self, request, uuid=None):
         profile = get_object_or_404(
             Profile.objects.prefetch_related("passion"),
             uuid=uuid,
         )
-        serializer = OpponentProfileSerializer(profile)
+        serializer = OppositeProfileSerializer(profile)
         return Response(serializer.data)

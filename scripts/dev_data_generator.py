@@ -8,8 +8,7 @@ from django.contrib.auth.models import User
 from django.db import OperationalError
 
 from core.utils import get_random_string, get_common_code_list
-from basic_profile.models import Profile
-from common_code.models import CommonCode
+from user_profile.models import Profile
 from passion.models import Passion
 
 logger = logging.getLogger(__name__)

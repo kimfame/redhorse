@@ -3,7 +3,7 @@ import uuid
 from django.db import models
 
 from core.utils import compress_image
-from basic_profile.models import Profile
+from user_profile.models import Profile
 
 
 def get_profile_picture_path(instance, filename):
