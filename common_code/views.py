@@ -1,49 +1,34 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from common_code.models import CommonCode
+from core.utils import get_common_code_list
 
 
-class CommonCodeList(APIView):
-    def __init__(self, category):
-        super(CommonCodeList, self).__init__()
-        self.category = category
-
+class GenderList(APIView):
     def get(self, request):
-        common_codes = list(
-            CommonCode.objects.filter(group__name=self.category).values_list(
-                "value",
-                flat=True,
-            )
-        )
-        return Response(common_codes)
+        return Response(get_common_code_list("gender"))
 
 
-class GenderList(CommonCodeList):
-    def __init__(self):
-        super(GenderList, self).__init__(category="gender")
+class PreferredGenderList(APIView):
+    def get(self, request):
+        return Response(get_common_code_list("preferred_gender"))
 
 
-class PreferredGenderList(CommonCodeList):
-    def __init__(self):
-        super(PreferredGenderList, self).__init__(category="preferred_gender")
+class MBTIList(APIView):
+    def get(self, request):
+        return Response(get_common_code_list("mbti"))
 
 
-class MBTIList(CommonCodeList):
-    def __init__(self):
-        super(MBTIList, self).__init__(category="mbti")
+class DrinkingStatusList(APIView):
+    def get(self, request):
+        return Response(get_common_code_list("drinking_status"))
 
 
-class DrinkingStatusList(CommonCodeList):
-    def __init__(self):
-        super(DrinkingStatusList, self).__init__(category="drinking_status")
+class ReligionList(APIView):
+    def get(self, request):
+        return Response(get_common_code_list("religion"))
 
 
-class ReligionList(CommonCodeList):
-    def __init__(self):
-        super(ReligionList, self).__init__(category="religion")
-
-
-class LocationList(CommonCodeList):
-    def __init__(self):
-        super(LocationList, self).__init__(category="location")
+class LocationList(APIView):
+    def get(self, request):
+        return Response(get_common_code_list("location"))
