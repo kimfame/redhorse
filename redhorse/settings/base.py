@@ -33,6 +33,7 @@ PROJECT_APPS = [
     "basic_profile",
     "user",
     "profile_picture",
+    "match",
 ]
 
 THIRD_PARTY_APPS = [
@@ -209,3 +210,5 @@ MAX_PASSION_NUM = env("MAX_PASSION_NUM", default=3)
 PASSWORD_RESET_RETRY_WAIT_TIME = env("PASSWORD_RESET_RETRY_WAIT_TIME", default=10)
 
 MAX_PROFILE_PICTURE_NUM = env("MAX_PROFILE_PICTURE_NUM", default=9)
+
+MAX_LIKE_NUM = env("MAX_LIKE_NUM", default=5)

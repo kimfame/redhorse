@@ -22,6 +22,7 @@ from common_code.views import (
 )
 from passion.views import PassionViewSet
 from profile_picture.views import ProfilePictureViewSet
+from match.views import MatchViewSet
 
 user_detail = UserViewSet.as_view(
     {
@@ -55,6 +56,7 @@ profile_picture_detail = ProfilePictureViewSet.as_view(
 
 router = DefaultRouter()
 router.register("passions", PassionViewSet, basename="passion")
+router.register("match", MatchViewSet, basename="match")
 
 urlpatterns = [
     path("", include(router.urls)),

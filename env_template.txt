@@ -41,3 +41,6 @@ PASSWORD_RESET_RETRY_WAIT_TIME=
 
 # Max profile picture number
 MAX_PROFILE_PICTURE_NUM=
+
+# Max like number for a day
+MAX_LIKE_NUM=
