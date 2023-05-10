@@ -11,6 +11,8 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db.models import ImageField
 from PIL import Image
 
+from common_code.models import CommonCode
+
 
 def is_valid_phone_number(phone_number: str) -> bool:
     regex = re.compile(r"^010\d{8}$")
@@ -76,3 +78,12 @@ def compress_image(image: ImageField):
         charset=None,
     )
     return new_image
+
+
+def get_common_code_list(group_name: str) -> list:
+    return list(
+        CommonCode.objects.filter(group__name=group_name).values_list(
+            "value",
+            flat=True,
+        )
+    )
