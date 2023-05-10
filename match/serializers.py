@@ -1,3 +1,5 @@
+import logging
+
 from datetime import date
 
 from django.conf import settings
@@ -7,6 +9,9 @@ from rest_framework import serializers
 
 from match.models import Match
 from user_profile.models import Profile
+
+
+logger = logging.getLogger(__name__)
 
 
 class MatchSerializer(serializers.Serializer):
@@ -32,7 +37,8 @@ class MatchSerializer(serializers.Serializer):
                         # create_chat_room(sender, receiver)
                     new_match.save()
 
-            except IntegrityError:
+            except IntegrityError as e:
+                logger.error(e)
                 raise serializers.ValidationError(
                     {"error": ["시스템 에러로 인해 Like를 보낼 수 없습니다. 추후 다시 시도해주세요."]}
                 )
