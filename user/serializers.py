@@ -70,7 +70,8 @@ class UserCreateSerializer(serializers.ModelSerializer):
                 )
 
                 return user
-        except IntegrityError:
+        except IntegrityError as e:
+            logger.error(e)
             raise serializers.ValidationError(
                 {"error": ["계정을 생성할 수 없습니다. 추후 다시 시도해주세요."]}
             )
