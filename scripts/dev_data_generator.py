@@ -7,9 +7,10 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import OperationalError
 
-from core.utils import get_random_string, get_common_code_list
+from core.utils import get_common_code_list
 from user_profile.models import Profile
 from passion.models import Passion
+from scripts.lorem import get_one_paragraph
 
 logger = logging.getLogger(__name__)
 
@@ -79,7 +80,7 @@ def create_test_users(user_num=10):
             smoking_status=bool(random.getrandbits(1)),
             drinking_status=random.choice(choice_field["drinking_status"]),
             location=random.choice(choice_field["location"]),
-            bio=get_random_string(100),
+            bio=get_one_paragraph(),
         )
 
         profile.passion.set(
