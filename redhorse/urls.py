@@ -22,7 +22,7 @@ from common_code.views import (
 )
 from passion.views import PassionViewSet
 from profile_picture.views import ProfilePictureViewSet
-from match.views import MatchViewSet
+from match.views import MatchViewSet, CountingLike
 
 user_detail = UserViewSet.as_view(
     {
@@ -73,6 +73,7 @@ urlpatterns = [
     path("users/me/profile-pictures/<uuid:uuid>/", profile_picture_detail),
     path("match/", match_create),
     path("match/received-likes", match_received_likes),
+    path("match/remaining-like-num", CountingLike.as_view()),
     path("genders", GenderList.as_view()),
     path("preferred-genders", PreferredGenderList.as_view()),
     path("mbti-types", MBTIList.as_view()),

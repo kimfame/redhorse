@@ -7,11 +7,14 @@ from io import BytesIO
 from secrets import choice
 from typing import Tuple
 
+from django.conf import settings
+from django.contrib.auth.models import User
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db.models import ImageField
 from PIL import Image
 
 from common_code.models import CommonCode
+from match.models import Match
 
 
 def is_valid_phone_number(phone_number: str) -> bool:
@@ -87,3 +90,12 @@ def get_common_code_list(group_name: str) -> list:
             flat=True,
         )
     )
+
+
+def get_remaining_like_num(user: User):
+    today_match = Match.objects.filter(
+        sender=user,
+        created_at__date=date.today(),
+    ).count()
+
+    return settings.MAX_LIKE_NUM - today_match

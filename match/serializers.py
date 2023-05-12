@@ -7,6 +7,7 @@ from django.db import IntegrityError, transaction
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
+from core.utils import get_remaining_like_num
 from match.models import Match
 from user_profile.models import Profile
 
@@ -45,13 +46,7 @@ class MatchSerializer(serializers.Serializer):
 
         sender = self.context.get("user")
 
-        if (
-            Match.objects.filter(
-                sender=sender,
-                created_at__date=date.today(),
-            ).count()
-            >= settings.MAX_LIKE_NUM
-        ):
+        if get_remaining_like_num(sender) <= 0:
             raise serializers.ValidationError({"error": ["오늘은 더이상 Like를 보낼 수 없습니다."]})
 
         receiver_profile = get_object_or_404(
