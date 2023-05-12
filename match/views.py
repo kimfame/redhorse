@@ -26,12 +26,19 @@ class MatchViewSet(viewsets.ViewSet):
             .prefetch_related("passion")
             .filter(
                 user__in=Subquery(
-                    Match.objects.filter(
-                        receiver=user, is_liked=True, is_matched=False
-                    ).values("sender")
+                    Match.objects.filter(receiver=user, is_liked=True, is_matched=False)
+                    .values("sender")
+                    .exclude(
+                        sender__in=Subquery(
+                            Match.objects.filter(
+                                sender=user, is_liked=False, is_matched=False
+                            ).values("receiver")
+                        )
+                    )
                 )
             )
         )
+
         serializer = OppositeProfileSerializer(profiles, many=True)
         return Response(serializer.data)
 
