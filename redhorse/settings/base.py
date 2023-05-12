@@ -34,6 +34,7 @@ PROJECT_APPS = [
     "user",
     "profile_picture",
     "match",
+    "chat_room",
 ]
 
 THIRD_PARTY_APPS = [

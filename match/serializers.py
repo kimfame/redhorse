@@ -1,12 +1,10 @@
 import logging
 
-from datetime import date
-
-from django.conf import settings
 from django.db import IntegrityError, transaction
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
+from chat_room.views import create_chat_room
 from core.utils import get_remaining_like_num
 from match.models import Match
 from user_profile.models import Profile
@@ -35,7 +33,7 @@ class MatchSerializer(serializers.Serializer):
                         new_match.is_matched = True
 
                         cross_match.save()
-                        # create_chat_room(sender, receiver)
+                        create_chat_room([sender, receiver])
                     new_match.save()
 
             except IntegrityError as e:
