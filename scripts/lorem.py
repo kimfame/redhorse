@@ -17,7 +17,7 @@ def get_one_paragraph(max_length=500, sentence_range=(4, 15)):
             if len(paragraph) == 0:
                 paragraph = sentence
             else:
-                paragraph += f"{random.choice('.,')} " + sentence
+                paragraph += f"{random.choice('.,')} {sentence}"
         else:
             break
 
