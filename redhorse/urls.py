@@ -58,6 +58,7 @@ match_create = MatchViewSet.as_view({"post": "create"})
 match_received_likes = MatchViewSet.as_view({"get": "list"})
 
 chat_room_list = ChatRoomViewSet.as_view({"get": "list"})
+chat_room_detail = ChatRoomViewSet.as_view({"get": "retrieve"})
 
 router = DefaultRouter()
 router.register("passions", PassionViewSet, basename="passion")
@@ -78,6 +79,7 @@ urlpatterns = [
     path("match/received-likes", match_received_likes),
     path("match/remaining-like-num", CountingLike.as_view()),
     path("chats", chat_room_list),
+    path("chats/<uuid:uuid>", chat_room_detail),
     path("genders", GenderList.as_view()),
     path("preferred-genders", PreferredGenderList.as_view()),
     path("mbti-types", MBTIList.as_view()),
