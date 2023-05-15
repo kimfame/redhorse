@@ -1,5 +1,8 @@
+import logging
+
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
+from django.db import IntegrityError, transaction
 from django.db.models import Prefetch
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -8,6 +11,9 @@ from chat_room.models import ChatRoom, ChatRoomMember
 from chat_room.serializers import ChatRoomListSerializer, ChatRoomRetrieveSerializer
 from core.queries import chat_room_list_query
 from profile_picture.models import ProfilePicture
+
+
+logger = logging.getLogger(__name__)
 
 
 def create_chat_room(user_list: list[User]) -> None:
@@ -94,6 +100,20 @@ class ChatRoomViewSet(viewsets.ViewSet):
             user=user,
             is_active=True,
         )
+
+        chat_room = chat_room_member.room
+        chat_room.is_active = False
         chat_room_member.is_active = False
-        chat_room_member.save()
+
+        try:
+            with transaction.atomic():
+                chat_room.save()
+                chat_room_member.save()
+        except IntegrityError as e:
+            logger.error(e)
+            return Response(
+                {"error": ["시스템 에러로 인해서 채팅방을 나갈 수 없습니다. 추후 다시 시도해주세요."]},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
         return Response(status=status.HTTP_204_NO_CONTENT)

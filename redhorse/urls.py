@@ -24,6 +24,7 @@ from passion.views import PassionViewSet
 from profile_picture.views import ProfilePictureViewSet
 from match.views import MatchViewSet, CountingLike
 from chat_room.views import ChatRoomViewSet
+from chat_message.views import ChatMessageViewSet
 
 user_detail = UserViewSet.as_view(
     {
@@ -59,6 +60,10 @@ match_received_likes = MatchViewSet.as_view({"get": "list"})
 
 chat_room_list = ChatRoomViewSet.as_view({"get": "list"})
 chat_room_detail = ChatRoomViewSet.as_view({"get": "retrieve"})
+chat_room_out = ChatRoomViewSet.as_view({"patch": "partial_update"})
+
+chat_message_list = ChatMessageViewSet.as_view({"get": "list"})
+chat_message_create = ChatMessageViewSet.as_view({"post": "create"})
 
 router = DefaultRouter()
 router.register("passions", PassionViewSet, basename="passion")
@@ -80,6 +85,9 @@ urlpatterns = [
     path("match/remaining-like-num", CountingLike.as_view()),
     path("chats", chat_room_list),
     path("chats/<uuid:uuid>", chat_room_detail),
+    path("chats/<uuid:uuid>/messages", chat_message_list),
+    path("chats/<uuid:uuid>/messages/", chat_message_create),
+    path("chats/<uuid:uuid>/out/", chat_room_out),
     path("genders", GenderList.as_view()),
     path("preferred-genders", PreferredGenderList.as_view()),
     path("mbti-types", MBTIList.as_view()),
