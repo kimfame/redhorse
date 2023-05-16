@@ -17,7 +17,7 @@ class ChatRoomListSerializer(serializers.Serializer):
     #     return obj.user.profile.nickname
 
     # def get_image(self, obj):
-    #     profile_picture_list = obj.user.profile.main_profile_picture
+    #     profile_picture_list = obj.user.main_profile_picture
     #     main_profile_picture = (
     #         profile_picture_list[0].image.url if profile_picture_list else None
     #     )
@@ -36,7 +36,7 @@ class ChatRoomRetrieveSerializer(serializers.Serializer):
         return obj.user.profile.nickname
 
     def get_image(self, obj):
-        profile_picture_list = obj.user.profile.main_profile_picture
+        profile_picture_list = obj.user.main_profile_picture
         main_profile_picture = (
             profile_picture_list[0].image.url if profile_picture_list else None
         )

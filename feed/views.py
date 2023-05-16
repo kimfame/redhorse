@@ -42,7 +42,7 @@ class Feed(APIView):
             .prefetch_related(
                 "passion",
                 Prefetch(
-                    "profilepicture_set",
+                    "user__profilepicture_set",
                     queryset=ProfilePicture.objects.order_by("-main", "id"),
                     to_attr="profile_pictures",
                 ),

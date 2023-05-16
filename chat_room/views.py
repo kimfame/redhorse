@@ -40,7 +40,7 @@ class ChatRoomViewSet(viewsets.ViewSet):
         #     ChatRoomMember.objects.select_related("room", "user__profile")
         #     .prefetch_related(
         #         Prefetch(
-        #             "user__profile__profilepicture_set",
+        #             "user__profilepicture_set",
         #             queryset=prefetch_queryset,
         #             to_attr="main_profile_picture",
         #         )
@@ -73,7 +73,7 @@ class ChatRoomViewSet(viewsets.ViewSet):
             ChatRoomMember.objects.select_related("room", "user__profile")
             .prefetch_related(
                 Prefetch(
-                    "user__profile__profilepicture_set",
+                    "user__profilepicture_set",
                     queryset=prefetch_queryset,
                     to_attr="main_profile_picture",
                 )

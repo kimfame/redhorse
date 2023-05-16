@@ -1,9 +1,9 @@
 import uuid
 
+from django.contrib.auth.models import User
 from django.db import models
 
 from core.utils import compress_image
-from user_profile.models import Profile
 
 
 def get_profile_picture_path(instance, filename):
@@ -11,7 +11,7 @@ def get_profile_picture_path(instance, filename):
 
 
 class ProfilePicture(models.Model):
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     main = models.BooleanField(default=False)
     image = models.ImageField(upload_to=get_profile_picture_path)

@@ -8,7 +8,7 @@ from profile_picture.models import ProfilePicture
 class ProfilePictureAdmin(admin.ModelAdmin):
     list_display = (
         "id",
-        "profile",
+        "user",
         "main",
         "image_preview",
         "updated_at",
