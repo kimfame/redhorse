@@ -2,7 +2,7 @@ from django.db.models import F, Prefetch, Subquery
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-
+from core.utils import get_remaining_like_num
 from match.models import Match
 from profile_picture.models import ProfilePicture
 from user_profile.serializers import OppositeProfileSerializer
@@ -12,6 +12,10 @@ from user_profile.models import Profile
 class Feed(APIView):
     def get(self, request):
         user = request.user
+
+        remaining_like = get_remaining_like_num(user)
+        profile_num = remaining_like if remaining_like > 0 else 1
+
         preferred_gender = user.profile.preferred_gender
         target_gender = ["M", "F"] if preferred_gender == "A" else [preferred_gender]
 
@@ -43,7 +47,7 @@ class Feed(APIView):
                     to_attr="profile_pictures",
                 ),
             )
-            .order_by("-id")
+            .order_by("-id")[:profile_num]
         )
 
         serializer = OppositeProfileSerializer(profiles, many=True)

@@ -21,6 +21,10 @@ class CountingLike(APIView):
 class MatchViewSet(viewsets.ViewSet):
     def list(self, request):
         user = request.user
+
+        remaining_like = get_remaining_like_num(user)
+        profile_num = remaining_like if remaining_like > 0 else 1
+
         profiles = (
             Profile.objects.select_related("user")
             .prefetch_related(
@@ -43,7 +47,7 @@ class MatchViewSet(viewsets.ViewSet):
                         )
                     )
                 )
-            )
+            )[:profile_num]
         )
 
         serializer = OppositeProfileSerializer(profiles, many=True)
