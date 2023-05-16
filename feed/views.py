@@ -36,12 +36,12 @@ class Feed(APIView):
             )
             .exclude(id=user.profile.id)
             .prefetch_related(
+                "passion",
                 Prefetch(
                     "profilepicture_set",
-                    queryset=ProfilePicture.objects.order_by("-main", "id")[:1],
-                    to_attr="main_profile_picture",
+                    queryset=ProfilePicture.objects.order_by("-main", "id"),
+                    to_attr="profile_pictures",
                 ),
-                "passion",
             )
             .order_by("-id")
         )

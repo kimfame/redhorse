@@ -1,14 +1,14 @@
-from django.db.models import Subquery
+from django.db.models import Prefetch, Subquery
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from core.utils import get_remaining_like_num
 from match.models import Match
 from match.serializers import MatchSerializer
+from profile_picture.models import ProfilePicture
 from user_profile.models import Profile
 from user_profile.serializers import OppositeProfileSerializer
-
-from core.utils import get_remaining_like_num
 
 
 class CountingLike(APIView):
@@ -23,7 +23,14 @@ class MatchViewSet(viewsets.ViewSet):
         user = request.user
         profiles = (
             Profile.objects.select_related("user")
-            .prefetch_related("passion")
+            .prefetch_related(
+                "passion",
+                Prefetch(
+                    "profilepicture_set",
+                    queryset=ProfilePicture.objects.order_by("-main", "id"),
+                    to_attr="profile_pictures",
+                ),
+            )
             .filter(
                 user__in=Subquery(
                     Match.objects.filter(receiver=user, is_liked=True, is_matched=False)
