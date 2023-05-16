@@ -36,6 +36,7 @@ PROJECT_APPS = [
     "match",
     "chat_room",
     "chat_message",
+    "feed",
 ]
 
 THIRD_PARTY_APPS = [

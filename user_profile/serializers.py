@@ -167,18 +167,26 @@ class MyProfileSerializer(serializers.ModelSerializer):
 
 
 class OppositeProfileSerializer(serializers.Serializer):
-    uuid = serializers.UUIDField()
-    nickname = serializers.CharField()
-    age = serializers.SerializerMethodField()
-    gender = serializers.CharField()
-    mbti = serializers.CharField()
+    uuid = serializers.UUIDField(read_only=True)
+    nickname = serializers.CharField(read_only=True)
+    age = serializers.SerializerMethodField(read_only=True)
+    gender = serializers.CharField(read_only=True)
+    mbti = serializers.CharField(read_only=True)
     passion = PassionSerializer(many=True)
-    height = serializers.CharField()
-    religion = serializers.CharField()
-    smoking_status = serializers.BooleanField()
-    drinking_status = serializers.CharField()
-    location = serializers.CharField()
-    bio = serializers.CharField()
+    height = serializers.CharField(read_only=True)
+    religion = serializers.CharField(read_only=True)
+    smoking_status = serializers.BooleanField(read_only=True)
+    drinking_status = serializers.CharField(read_only=True)
+    location = serializers.CharField(read_only=True)
+    bio = serializers.CharField(read_only=True)
+    image = serializers.SerializerMethodField(read_only=True)
 
     def get_age(self, obj):
         return calculate_age(obj.birthdate)
+
+    def get_image(self, obj):
+        profile_picture_queryset = obj.main_profile_picture
+        main_profile_picture = (
+            profile_picture_queryset[0].image.url if profile_picture_queryset else None
+        )
+        return main_profile_picture

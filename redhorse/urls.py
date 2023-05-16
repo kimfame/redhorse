@@ -25,6 +25,7 @@ from profile_picture.views import ProfilePictureViewSet
 from match.views import MatchViewSet, CountingLike
 from chat_room.views import ChatRoomViewSet
 from chat_message.views import ChatMessageViewSet
+from feed.views import Feed
 
 user_detail = UserViewSet.as_view(
     {
@@ -88,6 +89,7 @@ urlpatterns = [
     path("chats/<uuid:uuid>/messages", chat_message_list),
     path("chats/<uuid:uuid>/messages/", chat_message_create),
     path("chats/<uuid:uuid>/out/", chat_room_out),
+    path("feed", Feed.as_view()),
     path("genders", GenderList.as_view()),
     path("preferred-genders", PreferredGenderList.as_view()),
     path("mbti-types", MBTIList.as_view()),

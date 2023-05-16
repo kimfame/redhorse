@@ -26,3 +26,12 @@ FROM
             profile_picture_profilepicture PP0 ON P0.id = PP0.profile_id
     ) WHERE profile_picture_order = 1
 )"""
+
+feed_exclusion_list = """SELECT sender_id AS user_id
+FROM match_match
+WHERE receiver_id = %(id)s
+UNION
+SELECT receiver_id AS user_id
+FROM match_match
+WHERE sender_id = %(id)s;
+"""
