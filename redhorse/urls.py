@@ -72,8 +72,8 @@ router.register("match", MatchViewSet, basename="match")
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("phone/send-code/", send_verification_code),
-    path("phone/verify/", verify_verification_code),
+    path("phone/send-code/", send_verification_code, name="send_code"),
+    path("phone/verify/", verify_verification_code, name="verify_code"),
     path("users/", user_detail),
     path("users/change-password/", change_password),
     path("users/reset-password/", reset_password),
@@ -101,7 +101,6 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += [
-        path("admin/", admin.site.urls),
         path("__debug__/", include("debug_toolbar.urls")),
     ]
     urlpatterns.extend(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)),

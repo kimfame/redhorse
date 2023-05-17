@@ -16,6 +16,8 @@ DATABASES = {
     }
 }
 
+ADMIN_URL = env("ADMIN_URL", default="admin/")
+
 
 # Django REST Framework
 
