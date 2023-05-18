@@ -1,3 +1,4 @@
+import random
 import re
 import string
 import sys
@@ -62,6 +63,10 @@ def get_current_and_past_time(minutes: int) -> tuple[datetime, datetime]:
 
 def get_random_string(len: int) -> str:
     return "".join([choice(string.ascii_letters + string.digits) for _ in range(len)])
+
+
+def get_random_verification_code() -> str:
+    return f"{random.randint(100000, 999999)}"
 
 
 def compress_image(image: ImageField):

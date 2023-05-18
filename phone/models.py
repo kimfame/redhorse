@@ -16,7 +16,7 @@ class PhoneVerificationHistory(models.Model):
         verbose_name_plural = "Phone Verification Histories"
 
     def __str__(self):
-        return self.verification_code
+        return str(self.id)
 
 
 class UserPhone(models.Model):

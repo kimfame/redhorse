@@ -77,7 +77,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
             )
 
     def validate_username(self, value):
-        regex = re.compile(r"^[\w-]{5,20}$")
+        regex = re.compile(r"^[a-z0-9_-]{5,20}$")
 
         if regex.search(value):
             return value

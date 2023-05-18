@@ -1,10 +1,13 @@
-import random
 import re
 
 from django.conf import settings
 from rest_framework import serializers
 
-from core.utils import is_valid_phone_number, get_current_and_past_time
+from core.utils import (
+    is_valid_phone_number,
+    get_current_and_past_time,
+    get_random_verification_code,
+)
 from core.sms import send_sms_message
 from phone.models import PhoneVerificationHistory, UserPhone
 
@@ -24,7 +27,7 @@ class PhoneVerificationHistoryCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         phone_number = validated_data.get("phone_number")
-        verification_code = str(random.randint(100000, 999999))
+        verification_code = get_random_verification_code()
 
         phone_verification_history = PhoneVerificationHistory.objects.create(
             phone_number=phone_number,

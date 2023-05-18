@@ -27,12 +27,9 @@ from chat_room.views import ChatRoomViewSet
 from chat_message.views import ChatMessageViewSet
 from feed.views import Feed
 
-user_detail = UserViewSet.as_view(
-    {
-        "post": "create",
-        "delete": "destroy",
-    }
-)
+user_create = UserViewSet.as_view({"post": "create"})
+user_delete = UserViewSet.as_view({"delete": "destroy"})
+
 change_password = UserViewSet.as_view({"patch": "partial_update"})
 my_profile_detail = MyProfileViewSet.as_view(
     {
@@ -74,9 +71,10 @@ urlpatterns = [
     path("", include(router.urls)),
     path("phone/send-code/", send_verification_code, name="send_code"),
     path("phone/verify/", verify_verification_code, name="verify_code"),
-    path("users/", user_detail),
-    path("users/change-password/", change_password),
-    path("users/reset-password/", reset_password),
+    path("users/", user_create, name="create_user"),
+    path("users/me", user_delete, name="delete_user"),
+    path("users/change-password/", change_password, name="change_password"),
+    path("users/reset-password/", reset_password, name="reset_password"),
     path("users/me/profile/", my_profile_detail),
     path("users/<uuid:uuid>/profile", opposite_profile_detail),
     path("users/me/profile-pictures/", profile_picture_list),
@@ -101,6 +99,7 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += [
+        path("admin/", admin.site.urls),
         path("__debug__/", include("debug_toolbar.urls")),
     ]
     urlpatterns.extend(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)),

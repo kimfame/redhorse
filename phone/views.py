@@ -1,5 +1,3 @@
-from uuid import UUID
-
 from django.conf import settings
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -42,7 +40,7 @@ def verify_verification_code(request):
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
-def get_verified_phone_number(uuid: UUID) -> PhoneVerificationHistory:
+def get_verified_phone_number(uuid: str) -> PhoneVerificationHistory:
     start_datetime, end_datetime = get_current_and_past_time(
         settings.VERIFIED_PHONE_NUMBER_EXP_TIME
     )
