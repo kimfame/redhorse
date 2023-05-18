@@ -15,7 +15,7 @@ class Profile(models.Model):
     gender = models.CharField(max_length=1)
     preferred_gender = models.CharField(max_length=1)
     mbti = models.CharField(max_length=4)
-    passion = models.ManyToManyField(Passion, blank=True)
+    passions = models.ManyToManyField(Passion, blank=True)
     height = models.CharField(max_length=3)
     religion = models.CharField(max_length=3)
     smoking_status = models.BooleanField(default=False)
@@ -30,4 +30,4 @@ class Profile(models.Model):
         return self.user.username
 
     def get_passion_list(self):
-        return [passion.name for passion in self.passion.all()]
+        return [passion.name for passion in self.passions.all()]

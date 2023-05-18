@@ -40,7 +40,7 @@ class Feed(APIView):
             )
             .exclude(id=user.profile.id)
             .prefetch_related(
-                "passion",
+                "passions",
                 Prefetch(
                     "user__profilepicture_set",
                     queryset=ProfilePicture.objects.order_by("-main", "id"),

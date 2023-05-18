@@ -17,7 +17,7 @@ class MyProfileSerializer(serializers.ModelSerializer):
             "gender",
             "preferred_gender",
             "mbti",
-            "passion",
+            "passions",
             "height",
             "religion",
             "smoking_status",
@@ -28,7 +28,7 @@ class MyProfileSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
-        ret["passion"] = PassionSerializer(instance.passion.all(), many=True).data
+        ret["passions"] = PassionSerializer(instance.passions.all(), many=True).data
         return ret
 
     def validate_birthdate(self, value):
@@ -69,7 +69,7 @@ class MyProfileSerializer(serializers.ModelSerializer):
         else:
             raise serializers.ValidationError("잘못된 신장 정보를 입력하셨습니다.")
 
-    def validate_passion(self, value):
+    def validate_passions(self, value):
         if len(value) > settings.MAX_PASSION_NUM:
             raise serializers.ValidationError(
                 f"취미는 최대 {settings.MAX_PASSION_NUM}개를 초과할 수 없습니다."
@@ -139,7 +139,7 @@ class CreateMyProfileSerializer(MyProfileSerializer):
             "gender",
             "preferred_gender",
             "mbti",
-            "passion",
+            "passions",
             "height",
             "religion",
             "smoking_status",
@@ -153,7 +153,7 @@ class CreateMyProfileSerializer(MyProfileSerializer):
             "gender": {"required": True},
             "preferred_gender": {"required": True},
             "mbti": {"required": True},
-            "passion": {"required": True},
+            "passions": {"required": True},
             "height": {"required": True},
             "religion": {"required": True},
             "smoking_status": {"required": True},
@@ -180,7 +180,7 @@ class UpdateMyProfileSerializer(MyProfileSerializer):
             "nickname",
             "preferred_gender",
             "mbti",
-            "passion",
+            "passions",
             "height",
             "religion",
             "smoking_status",
@@ -192,7 +192,7 @@ class UpdateMyProfileSerializer(MyProfileSerializer):
             "nickname": {"required": False},
             "preferred_gender": {"required": False},
             "mbti": {"required": False},
-            "passion": {"required": False},
+            "passions": {"required": False},
             "height": {"required": False},
             "religion": {"required": False},
             "smoking_status": {"required": False},
@@ -208,7 +208,7 @@ class OppositeProfileSerializer(serializers.Serializer):
     age = serializers.SerializerMethodField(read_only=True)
     gender = serializers.CharField(read_only=True)
     mbti = serializers.CharField(read_only=True)
-    passion = PassionSerializer(many=True)
+    passions = PassionSerializer(many=True)
     height = serializers.CharField(read_only=True)
     religion = serializers.CharField(read_only=True)
     smoking_status = serializers.BooleanField(read_only=True)

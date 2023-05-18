@@ -33,7 +33,7 @@ class MyProfileViewSet(viewsets.ViewSet):
 
     def retrieve(self, request):
         profile = get_object_or_404(
-            Profile.objects.prefetch_related("passion"),
+            Profile.objects.prefetch_related("passions"),
             user=request.user,
         )
         serializer = MyProfileSerializer(profile)
@@ -41,7 +41,7 @@ class MyProfileViewSet(viewsets.ViewSet):
 
     def partial_update(self, request):
         profile = get_object_or_404(
-            Profile.objects.prefetch_related("passion"),
+            Profile.objects.prefetch_related("passions"),
             user=request.user,
         )
         common_code_queryset = self._get_profile_common_code_queryset()
@@ -75,7 +75,7 @@ class MyProfileViewSet(viewsets.ViewSet):
 class OppositeProfileViewSet(viewsets.ViewSet):
     def retrieve(self, request, uuid=None):
         profile = get_object_or_404(
-            Profile.objects.prefetch_related("passion"),
+            Profile.objects.prefetch_related("passions"),
             uuid=uuid,
         )
         serializer = OppositeProfileSerializer(profile)

@@ -83,6 +83,6 @@ def create_test_users(user_num=10):
             bio=get_one_paragraph(),
         )
 
-        profile.passion.set(
+        profile.passions.set(
             random.sample(choice_field["passion"], settings.MAX_PASSION_NUM)
         )
