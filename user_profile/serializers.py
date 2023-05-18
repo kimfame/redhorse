@@ -131,22 +131,9 @@ class MyProfileSerializer(serializers.ModelSerializer):
 
 
 class CreateMyProfileSerializer(MyProfileSerializer):
-    class Meta:
+    class Meta(MyProfileSerializer.Meta):
         model = Profile
-        fields = [
-            "nickname",
-            "birthdate",
-            "gender",
-            "preferred_gender",
-            "mbti",
-            "passions",
-            "height",
-            "religion",
-            "smoking_status",
-            "drinking_status",
-            "location",
-            "bio",
-        ]
+        fields = MyProfileSerializer.Meta.fields
         extra_kwargs = {
             "nickname": {"required": True},
             "birthdate": {"required": True},

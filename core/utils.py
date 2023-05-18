@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import random
 import re
 import string
@@ -18,24 +20,6 @@ from common_code.models import CommonCode
 from match.models import Match
 
 
-def is_valid_phone_number(phone_number: str) -> bool:
-    regex = re.compile(r"^010\d{8}$")
-
-    if regex.search(phone_number):
-        return True
-    else:
-        return False
-
-
-def is_valid_username(username: str) -> bool:
-    regex = re.compile(r"^[\w-]{5,20}$")
-
-    if regex.search(username):
-        return True
-    else:
-        return False
-
-
 def calculate_age(birthdate: date) -> int:
     today = date.today()
     return (
@@ -43,30 +27,6 @@ def calculate_age(birthdate: date) -> int:
         - birthdate.year
         - ((today.month, today.day) < (birthdate.month, birthdate.day))
     )
-
-
-def is_adult(birthdate: date) -> bool:
-    age = calculate_age(birthdate)
-
-    if age > 18:
-        return True
-    else:
-        return False
-
-
-def get_current_and_past_time(minutes: int) -> tuple[datetime, datetime]:
-    end_datetime = datetime.now()
-    start_datetime = end_datetime - timedelta(minutes=minutes)
-
-    return (start_datetime, end_datetime)
-
-
-def get_random_string(len: int) -> str:
-    return "".join([choice(string.ascii_letters + string.digits) for _ in range(len)])
-
-
-def get_random_verification_code() -> str:
-    return f"{random.randint(100000, 999999)}"
 
 
 def compress_image(image: ImageField):
@@ -88,6 +48,16 @@ def compress_image(image: ImageField):
     return new_image
 
 
+def fetchall_from_db(query: str, query_params: dict[str, str]) -> list[dict[str, any]]:
+    with connection.cursor() as cursor:
+        cursor.execute(query, query_params)
+        description = cursor.description
+        rows = cursor.fetchall()
+
+    columns = [col[0] for col in description]
+    return [dict(zip(columns, row)) for row in rows]
+
+
 def get_common_code_list(group_name: str) -> list[str]:
     return list(
         CommonCode.objects.filter(group__name=group_name).values_list(
@@ -95,6 +65,21 @@ def get_common_code_list(group_name: str) -> list[str]:
             flat=True,
         )
     )
+
+
+def get_current_and_past_time(minutes: int) -> tuple[datetime, datetime]:
+    end_datetime = datetime.now()
+    start_datetime = end_datetime - timedelta(minutes=minutes)
+
+    return (start_datetime, end_datetime)
+
+
+def get_random_string(len: int) -> str:
+    return "".join([choice(string.ascii_letters + string.digits) for _ in range(len)])
+
+
+def get_random_verification_code() -> str:
+    return f"{random.randint(100000, 999999)}"
 
 
 def get_remaining_like_num(user: User) -> int:
@@ -106,11 +91,28 @@ def get_remaining_like_num(user: User) -> int:
     return settings.MAX_LIKE_NUM - today_match
 
 
-def fetchall_from_db(query: str, query_params: dict[str, str]) -> list[dict[str, any]]:
-    with connection.cursor() as cursor:
-        cursor.execute(query, query_params)
-        description = cursor.description
-        rows = cursor.fetchall()
+def is_adult(birthdate: date) -> bool:
+    age = calculate_age(birthdate)
 
-    columns = [col[0] for col in description]
-    return [dict(zip(columns, row)) for row in rows]
+    if age > 18:
+        return True
+    else:
+        return False
+
+
+def is_valid_phone_number(phone_number: str) -> bool:
+    regex = re.compile(r"^010\d{8}$")
+
+    if regex.search(phone_number):
+        return True
+    else:
+        return False
+
+
+def is_valid_username(username: str) -> bool:
+    regex = re.compile(r"^[\w-]{5,20}$")
+
+    if regex.search(username):
+        return True
+    else:
+        return False

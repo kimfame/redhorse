@@ -75,7 +75,7 @@ urlpatterns = [
     path("users/me", user_delete, name="delete_user"),
     path("users/change-password/", change_password, name="change_password"),
     path("users/reset-password/", reset_password, name="reset_password"),
-    path("users/me/profile/", my_profile_detail),
+    path("users/me/profile/", my_profile_detail, name="my_profile"),
     path("users/<uuid:uuid>/profile", opposite_profile_detail),
     path("users/me/profile-pictures/", profile_picture_list),
     path("users/me/profile-pictures/<uuid:uuid>/", profile_picture_detail),

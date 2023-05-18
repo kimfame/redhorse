@@ -6,7 +6,6 @@ from faker import Faker
 from factory.django import DjangoModelFactory
 from secrets import choice
 
-
 fake = Faker()
 
 
@@ -20,5 +19,5 @@ class UserFactory(DjangoModelFactory):
     class Meta:
         model = User
 
-    username = get_random_username(fake.pyint(min_value=5, max_value=20))
+    username = factory.sequence(lambda n: f"user_{n+2}")
     password = factory.PostGenerationMethodCall("set_password", fake.password())

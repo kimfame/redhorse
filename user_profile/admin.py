@@ -14,7 +14,7 @@ class ProfileAdmin(admin.ModelAdmin):
         "gender",
         "preferred_gender",
         "mbti",
-        # "passion",
+        "passion",
         "height",
         "religion",
         "smoking_status",

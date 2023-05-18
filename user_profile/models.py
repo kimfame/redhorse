@@ -18,7 +18,7 @@ class Profile(models.Model):
     passions = models.ManyToManyField(Passion, blank=True)
     height = models.CharField(max_length=3)
     religion = models.CharField(max_length=3)
-    smoking_status = models.BooleanField(default=False)
+    smoking_status = models.BooleanField()
     drinking_status = models.CharField(max_length=2)
     location = models.CharField(max_length=2)
     bio = models.CharField(max_length=500)
