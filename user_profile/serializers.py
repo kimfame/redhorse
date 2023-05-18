@@ -12,7 +12,6 @@ class MyProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = [
-            "uuid",
             "nickname",
             "birthdate",
             "gender",
@@ -26,46 +25,11 @@ class MyProfileSerializer(serializers.ModelSerializer):
             "location",
             "bio",
         ]
-        extra_kwargs = {
-            "uuid": {"read_only": True},
-        }
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
         ret["passion"] = PassionSerializer(instance.passion.all(), many=True).data
         return ret
-
-    def create(self, validated_data):
-        user = self.context.get("user")
-
-        if Profile.objects.filter(user=user).exists():
-            raise serializers.ValidationError({"error": ["프로필이 이미 존재합니다."]})
-
-        validated_data["user"] = user
-
-        return super(MyProfileSerializer, self).create(validated_data)
-
-    def update(self, instance, validated_data):
-        update_target_fields = [
-            "nickname",
-            "preferred_gender",
-            "mbti",
-            "passion",
-            "height",
-            "religion",
-            "smoking_status",
-            "drinking_status",
-            "location",
-            "bio",
-        ]
-
-        new_validated_data = {
-            field: value
-            for field, value in validated_data.items()
-            if field in update_target_fields
-        }
-
-        return super(MyProfileSerializer, self).update(instance, new_validated_data)
 
     def validate_birthdate(self, value):
         if is_adult(value) is False:
@@ -164,6 +128,78 @@ class MyProfileSerializer(serializers.ModelSerializer):
             return value
         else:
             raise serializers.ValidationError("잘못된 위치 정보를 입력하셨습니다.")
+
+
+class CreateMyProfileSerializer(MyProfileSerializer):
+    class Meta:
+        model = Profile
+        fields = [
+            "nickname",
+            "birthdate",
+            "gender",
+            "preferred_gender",
+            "mbti",
+            "passion",
+            "height",
+            "religion",
+            "smoking_status",
+            "drinking_status",
+            "location",
+            "bio",
+        ]
+        extra_kwargs = {
+            "nickname": {"required": True},
+            "birthdate": {"required": True},
+            "gender": {"required": True},
+            "preferred_gender": {"required": True},
+            "mbti": {"required": True},
+            "passion": {"required": True},
+            "height": {"required": True},
+            "religion": {"required": True},
+            "smoking_status": {"required": True},
+            "drinking_status": {"required": True},
+            "location": {"required": True},
+            "bio": {"required": True},
+        }
+
+    def create(self, validated_data):
+        user = self.context.get("user")
+
+        if Profile.objects.filter(user=user).exists():
+            raise serializers.ValidationError({"error": ["프로필이 이미 존재합니다."]})
+
+        validated_data["user"] = user
+
+        return super(CreateMyProfileSerializer, self).create(validated_data)
+
+
+class UpdateMyProfileSerializer(MyProfileSerializer):
+    class Meta:
+        model = Profile
+        fields = [
+            "nickname",
+            "preferred_gender",
+            "mbti",
+            "passion",
+            "height",
+            "religion",
+            "smoking_status",
+            "drinking_status",
+            "location",
+            "bio",
+        ]
+        extra_kwargs = {
+            "nickname": {"required": False},
+            "preferred_gender": {"required": False},
+            "mbti": {"required": False},
+            "passion": {"required": False},
+            "height": {"required": False},
+            "religion": {"required": False},
+            "smoking_status": {"required": False},
+            "drinking_status": {"required": False},
+            "location": {"required": False},
+            "bio": {"required": False},
+        }
 
 
 class OppositeProfileSerializer(serializers.Serializer):

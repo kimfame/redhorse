@@ -4,7 +4,12 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 
 from user_profile.models import Profile
-from user_profile.serializers import MyProfileSerializer, OppositeProfileSerializer
+from user_profile.serializers import (
+    MyProfileSerializer,
+    OppositeProfileSerializer,
+    CreateMyProfileSerializer,
+    UpdateMyProfileSerializer,
+)
 from common_code.models import CommonCode
 
 
@@ -12,7 +17,7 @@ class MyProfileViewSet(viewsets.ViewSet):
     def create(self, request):
         common_code_queryset = self._get_profile_common_code_queryset()
 
-        serializer = MyProfileSerializer(
+        serializer = CreateMyProfileSerializer(
             data=request.data,
             context={
                 "user": request.user,
@@ -41,7 +46,7 @@ class MyProfileViewSet(viewsets.ViewSet):
         )
         common_code_queryset = self._get_profile_common_code_queryset()
 
-        serializer = MyProfileSerializer(
+        serializer = UpdateMyProfileSerializer(
             profile,
             data=request.data,
             context={"common_code_queryset": common_code_queryset},
