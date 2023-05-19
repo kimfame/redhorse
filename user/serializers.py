@@ -57,6 +57,13 @@ class UserCreateSerializer(serializers.ModelSerializer):
                 {"error": ["휴대폰번호 인증이 만료되었습니다. 휴대폰번호 인증을 다시 시도해주세요."]}
             )
 
+        if UserPhone.objects.filter(
+            phone_number=phone_verification_history.phone_number
+        ).exists():
+            raise serializers.ValidationError(
+                {"error": ["이미 가입되었거나 사용할 수 없는 휴대폰번호입니다."]}
+            )
+
         try:
             with transaction.atomic():
                 user = User.objects.create_user(
