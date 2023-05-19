@@ -85,6 +85,8 @@ class OppositeProfileViewSet(viewsets.ViewSet):
                 ),
             ),
             uuid=uuid,
+            user__is_active=True,
+            is_banned=False,
         )
         serializer = OppositeProfileSerializer(profile)
         return Response(serializer.data)

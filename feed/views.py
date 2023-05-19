@@ -32,7 +32,11 @@ class Feed(APIView):
 
         profiles = (
             Profile.objects.select_related("user")
-            .filter(gender__in=target_gender)
+            .filter(
+                gender__in=target_gender,
+                user__is_active=True,
+                is_banned=False,
+            )
             .exclude(
                 user__in=Subquery(
                     match_sender_me.union(match_receiver_me).values("user")

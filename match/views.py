@@ -36,6 +36,8 @@ class MatchViewSet(viewsets.ViewSet):
                 ),
             )
             .filter(
+                user__is_active=True,
+                is_banned=False,
                 user__in=Subquery(
                     Match.objects.filter(receiver=user, is_liked=True, is_matched=False)
                     .values("sender")
@@ -46,7 +48,7 @@ class MatchViewSet(viewsets.ViewSet):
                             ).values("receiver")
                         )
                     )
-                )
+                ),
             )[:profile_num]
         )
 
