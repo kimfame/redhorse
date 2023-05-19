@@ -36,7 +36,7 @@ class ProfileFactory(DjangoModelFactory):
         choices=PROFILE_OPTION_VALUES["preferred_gender"]
     )
     mbti = factory.fuzzy.FuzzyChoice(choices=PROFILE_OPTION_VALUES["mbti"])
-    height = factory.lazy_attribute(lambda o: str(random.randint(100, 300)))
+    height = factory.lazy_attribute(lambda o: str(random.randint(100, 299)))
     religion = factory.fuzzy.FuzzyChoice(choices=PROFILE_OPTION_VALUES["religion"])
     smoking_status = factory.fuzzy.FuzzyChoice(choices=[True, False])
     drinking_status = factory.fuzzy.FuzzyChoice(

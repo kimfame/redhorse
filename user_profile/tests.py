@@ -1,4 +1,5 @@
 import random
+import logging
 
 from django.conf import settings
 from django.urls import reverse
@@ -9,6 +10,8 @@ from user_profile.models import Profile
 from core.test import get_client_with_login_status
 from scripts import base_data_generator
 from user_profile.factories import ProfileFactory, PROFILE_OPTION_VALUES
+
+logger = logging.getLogger(__name__)
 
 
 class CreateProfileTestCase(APITestCase):
@@ -36,6 +39,7 @@ class CreateProfileTestCase(APITestCase):
 
     def test_can_create_profile(self):
         response = self.client.post(self.url, self.data)
+        logger.info(response.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 
