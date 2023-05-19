@@ -1,8 +1,9 @@
-from django.db.models import QuerySet
+from django.db.models import Prefetch, QuerySet
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 
+from profile_picture.models import ProfilePicture
 from user_profile.models import Profile
 from user_profile.serializers import (
     MyProfileSerializer,
@@ -75,7 +76,14 @@ class MyProfileViewSet(viewsets.ViewSet):
 class OppositeProfileViewSet(viewsets.ViewSet):
     def retrieve(self, request, uuid=None):
         profile = get_object_or_404(
-            Profile.objects.prefetch_related("passions"),
+            Profile.objects.select_related("user").prefetch_related(
+                "passions",
+                Prefetch(
+                    "user__profilepicture_set",
+                    queryset=ProfilePicture.objects.order_by("-main", "id"),
+                    to_attr="profile_pictures",
+                ),
+            ),
             uuid=uuid,
         )
         serializer = OppositeProfileSerializer(profile)
