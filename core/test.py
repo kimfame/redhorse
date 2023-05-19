@@ -7,8 +7,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from user.factories import UserFactory
 
 
-def get_client_with_login_status(user: User = None):
-    client = APIClient()
+def get_client_with_login_status(client: APIClient = APIClient(), user: User = None):
     user = user if user else UserFactory()
     refresh = RefreshToken.for_user(user)
     client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
