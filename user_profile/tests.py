@@ -36,8 +36,6 @@ class CreateProfileTestCase(APITestCase):
 
     def test_can_create_profile(self):
         response = self.client.post(self.url, self.data)
-        if response.status_code != 201:
-            print(response.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 
