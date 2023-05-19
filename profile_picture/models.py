@@ -7,7 +7,7 @@ from core.utils import compress_image
 
 
 def get_profile_picture_path(instance, filename):
-    return f"profile_picture/{instance.profile.uuid}/{uuid.uuid4()}.jpg"
+    return f"profile_picture/{instance.user.profile.uuid}/{uuid.uuid4()}.jpg"
 
 
 class ProfilePicture(models.Model):

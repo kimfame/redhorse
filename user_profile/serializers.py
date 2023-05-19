@@ -208,4 +208,6 @@ class OppositeProfileSerializer(serializers.Serializer):
         return calculate_age(obj.birthdate)
 
     def get_images(self, obj):
-        return [profile_picture.image.url for profile_picture in obj.profile_pictures]
+        return [
+            profile_picture.image.url for profile_picture in obj.user.profile_pictures
+        ]
