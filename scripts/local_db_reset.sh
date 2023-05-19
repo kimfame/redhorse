@@ -17,6 +17,9 @@ activate
 echo "Remove db.sqlite3"
 rm db.sqlite3
 
+echo "Remove profile pictures"
+rm -rf media/profile_picture
+
 echo "Make migrations"
 python3 manage.py makemigrations
 

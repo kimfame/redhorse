@@ -3,6 +3,7 @@ import logging
 from django.contrib.auth.models import User
 from django.db import OperationalError
 
+from profile_picture.factories import ProfilePictureFactory
 from user_profile.factories import ProfileFactory
 
 logger = logging.getLogger(__name__)
@@ -29,4 +30,8 @@ def create_superuser():
 
 def create_test_users(user_num=10):
     logger.info("Create fake users")
-    ProfileFactory.create_batch(user_num)
+    profile_list = ProfileFactory.create_batch(user_num)
+
+    for profile in profile_list:
+        ProfilePictureFactory.create(main=True, user=profile.user)
+        ProfilePictureFactory.create_batch(size=2, user=profile.user)
