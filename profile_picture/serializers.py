@@ -39,6 +39,9 @@ class ProfilePictureSerializer(serializers.Serializer):
         if instance.main == True:
             return instance
 
+        if validated_data.get("main") == False:
+            return instance
+
         ProfilePicture.objects.filter(
             user=user,
             main=True,

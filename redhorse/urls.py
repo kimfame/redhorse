@@ -65,7 +65,6 @@ chat_message_create = ChatMessageViewSet.as_view({"post": "create"})
 
 router = DefaultRouter()
 router.register("passions", PassionViewSet, basename="passion")
-router.register("match", MatchViewSet, basename="match")
 
 urlpatterns = [
     path("", include(router.urls)),
@@ -77,23 +76,33 @@ urlpatterns = [
     path("users/reset-password/", reset_password, name="reset_password"),
     path("users/me/profile/", my_profile_detail, name="my_profile"),
     path("users/<uuid:uuid>/profile", opposite_profile_detail, name="opposite_profile"),
-    path("users/me/profile-pictures/", profile_picture_list),
-    path("users/me/profile-pictures/<uuid:uuid>/", profile_picture_detail),
-    path("match/", match_create),
-    path("match/received-likes", match_received_likes),
-    path("match/remaining-like-num", CountingLike.as_view()),
-    path("chats", chat_room_list),
-    path("chats/<uuid:uuid>", chat_room_detail),
-    path("chats/<uuid:uuid>/messages", chat_message_list),
-    path("chats/<uuid:uuid>/messages/", chat_message_create),
-    path("chats/<uuid:uuid>/out/", chat_room_out),
-    path("feed", Feed.as_view()),
-    path("genders", GenderList.as_view()),
-    path("preferred-genders", PreferredGenderList.as_view()),
-    path("mbti-types", MBTIList.as_view()),
-    path("drinking-status", DrinkingStatusList.as_view()),
-    path("religions", ReligionList.as_view()),
-    path("locations", LocationList.as_view()),
+    path(
+        "users/me/profile-pictures/", profile_picture_list, name="profile_picture_list"
+    ),
+    path(
+        "users/me/profile-pictures/<uuid:uuid>/",
+        profile_picture_detail,
+        name="profile_picture_detail",
+    ),
+    path("match/", match_create, name="match_create"),
+    path("match/received-likes", match_received_likes, name="match_received_likes"),
+    path("match/remaining-like-num", CountingLike.as_view(), name="match_counter"),
+    path("chats", chat_room_list, name="chat_room_list"),
+    path("chats/<uuid:uuid>", chat_room_detail, name="chat_room_detail"),
+    path("chats/<uuid:uuid>/messages", chat_message_list, name="chat_message_list"),
+    path(
+        "chats/<uuid:uuid>/messages/", chat_message_create, name="chat_message_create"
+    ),
+    path("chats/<uuid:uuid>/out/", chat_room_out, name="chat_room_out"),
+    path("feed", Feed.as_view(), name="feed"),
+    path("genders", GenderList.as_view(), name="gender_list"),
+    path(
+        "preferred-genders", PreferredGenderList.as_view(), name="preferred_gender_list"
+    ),
+    path("mbti-types", MBTIList.as_view(), name="mbti_list"),
+    path("drinking-status", DrinkingStatusList.as_view(), name="drinking_status_list"),
+    path("religions", ReligionList.as_view(), name="religion_list"),
+    path("locations", LocationList.as_view(), name="location_list"),
 ]
 
 

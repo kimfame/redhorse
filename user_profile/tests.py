@@ -14,7 +14,7 @@ from user_profile.factories import ProfileFactory, PROFILE_OPTION_VALUES
 class CreateProfileTestCase(APITestCase):
     def setUp(self):
         base_data_generator.run()
-        self.client = get_client_with_login_status()
+        self.client = get_client_with_login_status(self.client)
         self.url = reverse("my_profile")
         profile = ProfileFactory.build()
         self.data = {
