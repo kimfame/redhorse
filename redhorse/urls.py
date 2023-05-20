@@ -86,7 +86,7 @@ urlpatterns = [
     ),
     path("match/", match_create, name="match_create"),
     path("match/received-likes", match_received_likes, name="match_received_likes"),
-    path("match/remaining-like-num", CountingLike.as_view(), name="match_counter"),
+    path("match/remaining-like-num", CountingLike.as_view(), name="remaining_like_num"),
     path("chats", chat_room_list, name="chat_room_list"),
     path("chats/<uuid:uuid>", chat_room_detail, name="chat_room_detail"),
     path("chats/<uuid:uuid>/messages", chat_message_list, name="chat_message_list"),
