@@ -43,13 +43,37 @@ class CreateMatchTestCase(APITestCase):
 class ReceivedLikeTestCase(APITestCase):
     def setUp(self):
         base_data_generator.run()
-        self.profile = ProfileFactory()
-        self.client = get_client_with_login_status(self.client, self.profile.user)
         self.url = reverse("match_received_likes")
 
     def test_can_get_profiles_who_like_me(self):
-        profile = ProfileFactory()
-        MatchFactory(sender=profile.user, receiver=self.profile.user, is_liked=True)
+        my_profile = ProfileFactory()
+        self.client = get_client_with_login_status(self.client, my_profile.user)
+
+        opposite_profile = ProfileFactory()
+        MatchFactory(
+            sender=opposite_profile.user,
+            receiver=my_profile.user,
+            is_liked=True,
+        )
+
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+    def test_can_exclude_inactive_users(self):
+        my_profile = ProfileFactory(preferred_gender="F")
+        self.client = get_client_with_login_status(self.client, my_profile.user)
+
+        feed_profile_num = get_remaining_like_num(my_profile.user)
+        self.assertGreaterEqual(feed_profile_num, 2)
+
+        for is_active in range(2):
+            opposite_profile = ProfileFactory(gender="F", user__is_active=is_active)
+            MatchFactory(
+                sender=opposite_profile.user,
+                receiver=my_profile.user,
+                is_liked=True,
+            )
 
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
