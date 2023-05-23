@@ -24,7 +24,7 @@ from passion.views import PassionViewSet
 from profile_picture.views import ProfilePictureViewSet
 from match.views import MatchViewSet, CountingLike
 from chat_room.views import ChatRoomViewSet
-from chat_message.views import ChatMessageViewSet
+from chat_message.views import ChatMessageListViewSet, CreateChatMessage
 from feed.views import Feed
 
 user_create = UserViewSet.as_view({"post": "create"})
@@ -60,8 +60,7 @@ chat_room_list = ChatRoomViewSet.as_view({"get": "list"})
 chat_room_detail = ChatRoomViewSet.as_view({"get": "retrieve"})
 chat_room_out = ChatRoomViewSet.as_view({"patch": "partial_update"})
 
-chat_message_list = ChatMessageViewSet.as_view({"get": "list"})
-chat_message_create = ChatMessageViewSet.as_view({"post": "create"})
+chat_message_list = ChatMessageListViewSet.as_view({"get": "list"})
 
 router = DefaultRouter()
 router.register("passions", PassionViewSet, basename="passion")
@@ -91,7 +90,9 @@ urlpatterns = [
     path("chats/<uuid:uuid>", chat_room_detail, name="chat_room_detail"),
     path("chats/<uuid:uuid>/messages", chat_message_list, name="chat_message_list"),
     path(
-        "chats/<uuid:uuid>/messages/", chat_message_create, name="chat_message_create"
+        "chats/<uuid:uuid>/messages/",
+        CreateChatMessage.as_view(),
+        name="chat_message_create",
     ),
     path("chats/<uuid:uuid>/out/", chat_room_out, name="chat_room_out"),
     path("feed", Feed.as_view(), name="feed"),

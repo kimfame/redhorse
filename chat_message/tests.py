@@ -24,8 +24,11 @@ class ChatMessageTestCase(APITestCase):
 
         url = reverse("chat_message_list", kwargs={"uuid": room.uuid})
         response = self.client.get(url)
+
+        message_list = dict(response.data.items())["results"]
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 10)
+        self.assertEqual(len(message_list), 10)
 
     def test_can_create_message(self):
         room = ChatRoomFactory(users=[self.profile.user])

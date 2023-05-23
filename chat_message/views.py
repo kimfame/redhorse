@@ -1,9 +1,12 @@
 from django.shortcuts import get_list_or_404, get_object_or_404
 
-from rest_framework import viewsets, status
+from rest_framework import mixins, status
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.viewsets import GenericViewSet
 
 from chat_message.models import ChatMessage
+from chat_message.paginations import ChatMessagePagination
 from chat_message.serializers import (
     ChatMessageCreateSerializer,
     ChatMessageListSerializer,
@@ -11,17 +14,28 @@ from chat_message.serializers import (
 from chat_room.models import ChatRoomMember
 
 
-class ChatMessageViewSet(viewsets.ViewSet):
-    def list(self, request, uuid=None):
-        chat_messages = get_list_or_404(
+class ChatMessageListViewSet(mixins.ListModelMixin, GenericViewSet):
+    serializer_class = ChatMessageListSerializer
+    pagination_class = ChatMessagePagination
+
+    def list(self, request, uuid=None, *args, **kwargs):
+        queryset = get_list_or_404(
             ChatMessage.objects.select_related("user").order_by("id"),
             room__uuid=uuid,
             room__users__id__exact=request.user.id,
         )
-        serializer = ChatMessageListSerializer(chat_messages, many=True)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
-    def create(self, request, uuid=None):
+
+class CreateChatMessage(APIView):
+    def post(self, request, uuid=None):
         user = request.user
 
         chat_room_member = get_object_or_404(
