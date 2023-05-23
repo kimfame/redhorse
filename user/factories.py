@@ -1,10 +1,12 @@
 import factory
 import string
 
-from django.contrib.auth.models import User
-from faker import Faker
-from factory.django import DjangoModelFactory
 from secrets import choice
+
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User
+from factory.django import DjangoModelFactory
+from faker import Faker
 
 fake = Faker()
 
@@ -20,4 +22,4 @@ class UserFactory(DjangoModelFactory):
         model = User
 
     username = factory.sequence(lambda n: f"user_{n+2}")
-    password = factory.PostGenerationMethodCall("set_password", fake.password())
+    password = factory.lazy_attribute(lambda o: make_password(o.username))

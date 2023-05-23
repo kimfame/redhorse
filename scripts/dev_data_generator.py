@@ -46,9 +46,10 @@ def create_test_users():
 
 def create_pair_messages(room, pair_size=None):
     pair_size = pair_size if pair_size else random.randint(2, 5)
+    users = room.users.all()
 
     for _ in range(pair_size):
-        for user in room.users.all():
+        for user in users:
             ChatMessageFactory(room=room, user=user)
 
 
@@ -68,7 +69,7 @@ def create_matches(user_list):
         )
 
         room = ChatRoomFactory(users=[user_1, user_2])
-        create_pair_messages(room, 5)
+        create_pair_messages(room, 100)
 
     for i in range(2):
         j = i + 1 if i == 0 else i + 3

@@ -1,5 +1,6 @@
 import uuid
 
+from django.contrib.auth.hashers import make_password
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -61,7 +62,7 @@ class DeactivateUserTestCase(APITestCase):
 class ChangePasswordTestCase(APITestCase):
     def setUp(self):
         self.password = fake.password()
-        self.user = UserFactory(password=self.password)
+        self.user = UserFactory(password=make_password(self.password))
 
         refresh = RefreshToken.for_user(self.user)
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
