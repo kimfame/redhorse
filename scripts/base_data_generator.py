@@ -9,36 +9,13 @@ logger = logging.getLogger(__name__)
 
 def run():
     logger.info("Run base data generator")
-
-    delete_common_codes()
-    generate_common_codes()
-
-    delete_passion_data()
+    generate_option_codes()
     generate_passion_data()
-
     logger.info("Finished.")
 
 
-def delete_common_codes():
-    logger.info("Delete common code data")
-    common_codes = CommonCode.objects.all()
-    if common_codes:
-        common_codes.delete()
-
-    common_code_groups = CommonCodeGroup.objects.all()
-    if common_code_groups:
-        common_code_groups.delete()
-
-
-def delete_passion_data():
-    logger.info("Delete passion data")
-    passions = Passion.objects.all()
-    if passions:
-        passions.delete()
-
-
-def generate_common_codes():
-    logger.info("Create common code data")
+def generate_option_codes():
+    logger.info("Create option code data")
     for common_code in common_code_list:
         group_name = common_code[0]
         codes = common_code[1]
