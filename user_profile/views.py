@@ -11,18 +11,18 @@ from user_profile.serializers import (
     CreateMyProfileSerializer,
     UpdateMyProfileSerializer,
 )
-from common_code.models import CommonCode
+from option_code.models import OptionCode
 
 
 class MyProfileViewSet(viewsets.ViewSet):
     def create(self, request):
-        common_code_queryset = self._get_profile_common_code_queryset()
+        option_code_queryset = self._get_profile_option_code_queryset()
 
         serializer = CreateMyProfileSerializer(
             data=request.data,
             context={
                 "user": request.user,
-                "common_code_queryset": common_code_queryset,
+                "option_code_queryset": option_code_queryset,
             },
         )
 
@@ -45,12 +45,12 @@ class MyProfileViewSet(viewsets.ViewSet):
             Profile.objects.prefetch_related("passions"),
             user=request.user,
         )
-        common_code_queryset = self._get_profile_common_code_queryset()
+        option_code_queryset = self._get_profile_option_code_queryset()
 
         serializer = UpdateMyProfileSerializer(
             profile,
             data=request.data,
-            context={"common_code_queryset": common_code_queryset},
+            context={"option_code_queryset": option_code_queryset},
             partial=True,
         )
 
@@ -60,8 +60,8 @@ class MyProfileViewSet(viewsets.ViewSet):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def _get_profile_common_code_queryset(self) -> QuerySet:
-        return CommonCode.objects.select_related("group").filter(
+    def _get_profile_option_code_queryset(self) -> QuerySet:
+        return OptionCode.objects.select_related("group").filter(
             group__name__in=[
                 "gender",
                 "preferred_gender",

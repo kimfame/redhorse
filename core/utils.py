@@ -16,7 +16,7 @@ from django.db import connection
 from django.db.models import ImageField
 from PIL import Image
 
-from common_code.models import CommonCode
+from option_code.models import OptionCode
 from match.models import Match
 
 
@@ -58,9 +58,9 @@ def fetchall_from_db(query: str, query_params: dict[str, str]) -> list[dict[str,
     return [dict(zip(columns, row)) for row in rows]
 
 
-def get_common_code_list(group_name: str) -> list[str]:
+def get_option_code_list(group_name: str) -> list[str]:
     return list(
-        CommonCode.objects.filter(group__name=group_name).values_list(
+        OptionCode.objects.filter(group__name=group_name).values_list(
             "value",
             flat=True,
         )

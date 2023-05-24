@@ -29,7 +29,7 @@ DJANGO_APPS = [
 PROJECT_APPS = [
     "phone",
     "passion",
-    "common_code",
+    "option_code",
     "user_profile",
     "user",
     "profile_picture",

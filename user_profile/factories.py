@@ -7,7 +7,7 @@ from factory.django import DjangoModelFactory
 from faker import Faker
 
 from core.test import get_random_adult_birthdate
-from core.utils import get_common_code_list
+from core.utils import get_option_code_list
 from user.factories import UserFactory
 from user_profile.models import Profile
 from passion.models import Passion
@@ -16,12 +16,12 @@ fake = Faker()
 
 
 PROFILE_OPTION_VALUES = {
-    "gender": get_common_code_list("gender"),
-    "preferred_gender": get_common_code_list("preferred_gender"),
-    "mbti": get_common_code_list("mbti"),
-    "religion": get_common_code_list("religion"),
-    "drinking_status": get_common_code_list("drinking_status"),
-    "location": get_common_code_list("location"),
+    "gender": get_option_code_list("gender"),
+    "preferred_gender": get_option_code_list("preferred_gender"),
+    "mbti": get_option_code_list("mbti"),
+    "religion": get_option_code_list("religion"),
+    "drinking_status": get_option_code_list("drinking_status"),
+    "location": get_option_code_list("location"),
     "passion": list(Passion.objects.all().values_list("id", flat=True)),
 }
 

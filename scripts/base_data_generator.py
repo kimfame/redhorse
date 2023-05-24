@@ -1,8 +1,8 @@
 import logging
 
-from common_code.models import CommonCode, CommonCodeGroup
+from option_code.models import OptionCode, OptionCodeGroup
 from passion.models import Passion
-from .base_data import common_code_list, passion_list
+from .base_data import option_code_list, passion_list
 
 logger = logging.getLogger(__name__)
 
@@ -16,23 +16,23 @@ def run():
 
 def generate_option_codes():
     logger.info("Create option code data")
-    for common_code in common_code_list:
-        group_name = common_code[0]
-        codes = common_code[1]
+    for option_code in option_code_list:
+        group_name = option_code[0]
+        codes = option_code[1]
 
-        if CommonCodeGroup.objects.filter(name=group_name).exists():
+        if OptionCodeGroup.objects.filter(name=group_name).exists():
             continue
 
-        common_code_group = CommonCodeGroup.objects.create(name=group_name)
+        option_code_group = OptionCodeGroup.objects.create(name=group_name)
 
         bulk_list = []
 
         for idx, code in enumerate(codes, 1):
             bulk_list.append(
-                CommonCode(group=common_code_group, sub_id=idx, value=code)
+                OptionCode(group=option_code_group, sub_id=idx, value=code)
             )
 
-        CommonCode.objects.bulk_create(bulk_list)
+        OptionCode.objects.bulk_create(bulk_list)
 
 
 def generate_passion_data():

@@ -1,4 +1,4 @@
-common_code_list = [
+option_code_list = [
     (
         "gender",
         (

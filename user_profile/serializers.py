@@ -83,12 +83,12 @@ class MyProfileSerializer(serializers.ModelSerializer):
         if regex.search(value) is None:
             raise serializers.ValidationError("잘못된 음주 빈도 정보를 입력하셨습니다.")
 
-        common_code_queryset = self.context.get("common_code_queryset")
+        option_code_queryset = self.context.get("option_code_queryset")
 
         drinking_status_types = [
-            common_code.value
-            for common_code in common_code_queryset
-            if common_code.group.name == "drinking_status"
+            option_code.value
+            for option_code in option_code_queryset
+            if option_code.group.name == "drinking_status"
         ]
 
         if value in drinking_status_types:
@@ -97,12 +97,12 @@ class MyProfileSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("잘못된 음주 빈도 정보를 입력하셨습니다.")
 
     def validate_religion(self, value):
-        common_code_queryset = self.context.get("common_code_queryset")
+        option_code_queryset = self.context.get("option_code_queryset")
 
         religion_types = [
-            common_code.value
-            for common_code in common_code_queryset
-            if common_code.group.name == "religion"
+            option_code.value
+            for option_code in option_code_queryset
+            if option_code.group.name == "religion"
         ]
 
         if value in religion_types:
@@ -116,12 +116,12 @@ class MyProfileSerializer(serializers.ModelSerializer):
         if regex.search(value) is None:
             raise serializers.ValidationError("잘못된 지역 정보를 입력하셨습니다.")
 
-        common_code_queryset = self.context.get("common_code_queryset")
+        option_code_queryset = self.context.get("option_code_queryset")
 
         location_types = [
-            common_code.value
-            for common_code in common_code_queryset
-            if common_code.group.name == "location"
+            option_code.value
+            for option_code in option_code_queryset
+            if option_code.group.name == "location"
         ]
 
         if value in location_types:

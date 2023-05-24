@@ -12,7 +12,7 @@ from rest_framework_simplejwt.views import (
 from phone.views import send_verification_code, verify_verification_code
 from user.views import UserViewSet, reset_password
 from user_profile.views import MyProfileViewSet, OppositeProfileViewSet
-from common_code.views import (
+from option_code.views import (
     GenderList,
     PreferredGenderList,
     MBTIList,
