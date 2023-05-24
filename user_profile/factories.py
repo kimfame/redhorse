@@ -4,13 +4,15 @@ import random
 
 from django.conf import settings
 from factory.django import DjangoModelFactory
+from faker import Faker
 
 from core.test import get_random_adult_birthdate
 from core.utils import get_common_code_list
 from user.factories import UserFactory
 from user_profile.models import Profile
 from passion.models import Passion
-from scripts.lorem import get_one_paragraph
+
+fake = Faker()
 
 
 PROFILE_OPTION_VALUES = {
@@ -43,7 +45,9 @@ class ProfileFactory(DjangoModelFactory):
         choices=PROFILE_OPTION_VALUES["drinking_status"]
     )
     location = factory.fuzzy.FuzzyChoice(choices=PROFILE_OPTION_VALUES["location"])
-    bio = factory.lazy_attribute(lambda o: get_one_paragraph())
+    bio = factory.lazy_attribute(
+        lambda o: fake.paragraph(nb_sentences=2, variable_nb_sentences=False)
+    )
 
     @factory.post_generation
     def passions(self, create, extracted, **kwargs):
