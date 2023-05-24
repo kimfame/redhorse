@@ -9,8 +9,8 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
 
-from phone.views import send_verification_code, verify_verification_code
-from user.views import UserViewSet, reset_password
+from phone.views import VerificationCodeSender, CodeVerification
+from user.views import UserViewSet, PasswordReset
 from user_profile.views import MyProfileViewSet, OppositeProfileViewSet
 from option_code.views import (
     GenderList,
@@ -67,12 +67,12 @@ router.register("passions", PassionViewSet, basename="passion")
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("phone/send-code/", send_verification_code, name="send_code"),
-    path("phone/verify/", verify_verification_code, name="verify_code"),
+    path("phone/send-code/", VerificationCodeSender.as_view(), name="send_code"),
+    path("phone/verify/", CodeVerification.as_view(), name="verify_code"),
     path("users/", user_create, name="create_user"),
     path("users/me", user_delete, name="delete_user"),
     path("users/change-password/", change_password, name="change_password"),
-    path("users/reset-password/", reset_password, name="reset_password"),
+    path("users/reset-password/", PasswordReset.as_view(), name="reset_password"),
     path("users/me/profile/", my_profile_detail, name="my_profile"),
     path("users/<uuid:uuid>/profile", opposite_profile_detail, name="opposite_profile"),
     path(
