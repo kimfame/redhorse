@@ -10,8 +10,8 @@ class ChatRoomAdmin(admin.ModelAdmin):
         "user_active_status",
         "is_active",
         "uuid",
-        "updated_at",
-        "created_at",
+        "updated_datetime",
+        "created_datetime",
     ]
     list_display_links = ["uuid"]
 
@@ -43,7 +43,7 @@ class ChatRoomMemberAdmin(admin.ModelAdmin):
         "room",
         "user",
         "is_active",
-        "updated_at",
-        "created_at",
+        "updated_datetime",
+        "created_datetime",
     ]
     list_display_links = ["user"]

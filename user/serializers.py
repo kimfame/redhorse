@@ -154,7 +154,7 @@ class PasswordResetSerializer(serializers.Serializer):
 
         if TemporaryPasswordIssueHistory.objects.filter(
             user=user,
-            created_at__range=(start_datetime, end_datetime),
+            created_datetime__range=(start_datetime, end_datetime),
         ).exists():
             raise serializers.ValidationError(
                 {

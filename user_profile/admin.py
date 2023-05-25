@@ -22,8 +22,8 @@ class ProfileAdmin(admin.ModelAdmin):
         "location",
         # "bio",
         "is_banned",
-        "updated_at",
-        "created_at",
+        "updated_datetime",
+        "created_datetime",
     ]
     list_display_links = ["user"]
     filter_horizontal = ["passions"]

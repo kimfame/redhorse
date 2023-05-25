@@ -53,7 +53,7 @@ class PhoneVerificationHistoryCreateSerializer(serializers.ModelSerializer):
 
         does_exist_phone_verification_history = PhoneVerificationHistory.objects.filter(
             phone_number=value,
-            created_at__range=(start_datetime, end_datetime),
+            created_datetime__range=(start_datetime, end_datetime),
         ).exists()
 
         if does_exist_phone_verification_history is True:
@@ -90,9 +90,9 @@ class PhoneVerificationHistoryUpdateSerializer(serializers.ModelSerializer):
             PhoneVerificationHistory.objects.filter(
                 phone_number=validated_data.get("phone_number"),
                 verification_code=validated_data.get("verification_code"),
-                created_at__range=(start_datetime, end_datetime),
+                created_datetime__range=(start_datetime, end_datetime),
             )
-            .order_by("-created_at")
+            .order_by("-created_datetime")
             .first()
         )
 
@@ -123,7 +123,7 @@ class PhoneVerificationHistoryUpdateSerializer(serializers.ModelSerializer):
         else:
             raise serializers.ValidationError("입력된 인증코드의 형식이 잘못되었습니다. 숫자 6자리를 입력해주세요.")
 
-    def validate_created_at(self, value):
+    def validate_created_datetime(self, value):
         start_datetime, end_datetime = get_current_and_past_time(
             settings.VERIFICATION_CODE_EXP_TIME
         )

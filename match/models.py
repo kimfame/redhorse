@@ -1,8 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from core.models import TimeStampedModel
 
-class Match(models.Model):
+
+class Match(TimeStampedModel):
     sender = models.ForeignKey(
         User, related_name="sender", on_delete=models.SET_NULL, null=True
     )
@@ -11,8 +13,6 @@ class Match(models.Model):
     )
     is_liked = models.BooleanField(default=False)
     is_matched = models.BooleanField(default=False)
-    updated_at = models.DateTimeField(auto_now=True)
-    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name_plural = "Matches"

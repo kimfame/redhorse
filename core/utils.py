@@ -89,7 +89,7 @@ def get_random_verification_code() -> str:
 def get_remaining_like_num(user_id: int) -> int:
     today_match = Match.objects.filter(
         sender=user_id,
-        created_at__date=date.today(),
+        created_datetime__date=date.today(),
     ).count()
 
     return settings.MAX_LIKE_NUM - today_match

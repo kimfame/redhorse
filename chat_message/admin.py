@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from chat_message.models import ChatMessage
 
 
@@ -10,8 +11,8 @@ class ChatMessageAdmin(admin.ModelAdmin):
         "user",
         # "message",
         "message_summary",
-        "updated_at",
-        "created_at",
+        "updated_datetime",
+        "created_datetime",
     ]
     list_display_links = ["id", "message_summary"]
 

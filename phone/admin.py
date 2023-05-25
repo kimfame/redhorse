@@ -10,8 +10,8 @@ class PhoneVerificationHistoryAdmin(admin.ModelAdmin):
         "phone_number",
         "verification_code",
         "is_verified",
-        "updated_at",
-        "created_at",
+        "updated_datetime",
+        "created_datetime",
     ]
     list_display_links = ["phone_number"]
 
@@ -22,7 +22,7 @@ class UserPhoneAdmin(admin.ModelAdmin):
         "id",
         "user",
         "phone_number",
-        "updated_at",
-        "created_at",
+        "updated_datetime",
+        "created_datetime",
     ]
     list_display_links = ["phone_number"]

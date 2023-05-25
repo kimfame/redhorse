@@ -44,5 +44,5 @@ def get_verified_phone_number(uuid: str) -> PhoneVerificationHistory:
     return PhoneVerificationHistory.objects.filter(
         is_verified=True,
         uuid=uuid,
-        created_at__range=(start_datetime, end_datetime),
+        created_datetime__range=(start_datetime, end_datetime),
     ).first()

@@ -7,7 +7,7 @@ class ChatMessageListSerializer(serializers.Serializer):
     uuid = serializers.UUIDField(read_only=True)
     user = serializers.UUIDField(read_only=True)
     message = serializers.CharField(read_only=True)
-    created_at = serializers.DateTimeField(read_only=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
 
 
 class ChatMessageCreateSerializer(serializers.Serializer):

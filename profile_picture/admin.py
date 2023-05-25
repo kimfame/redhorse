@@ -11,8 +11,8 @@ class ProfilePictureAdmin(admin.ModelAdmin):
         "user",
         "main",
         "image_preview",
-        "updated_at",
-        "created_at",
+        "updated_datetime",
+        "created_datetime",
     )
     list_display_links = ("image_preview",)
     readonly_fields = ("image",)

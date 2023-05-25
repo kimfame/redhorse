@@ -3,8 +3,10 @@ import uuid
 from django.contrib.auth.models import User
 from django.db import models
 
+from core.models import TimeStampedModel
 
-class ChatRoom(models.Model):
+
+class ChatRoom(TimeStampedModel):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     users = models.ManyToManyField(
         User,
@@ -12,19 +14,15 @@ class ChatRoom(models.Model):
         through_fields=("room", "user"),
     )
     is_active = models.BooleanField(default=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return str(self.id)
 
 
-class ChatRoomMember(models.Model):
+class ChatRoomMember(TimeStampedModel):
     room = models.ForeignKey(ChatRoom, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         constraints = [
