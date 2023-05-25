@@ -36,20 +36,20 @@ class ChatMessageListViewSet(mixins.ListModelMixin, GenericViewSet):
 
 class CreateChatMessage(APIView):
     def post(self, request, uuid=None):
-        user = request.user
+        user_id = request.user.id
 
         chat_room_member = get_object_or_404(
             ChatRoomMember.objects.select_related("room"),
             room__uuid=uuid,
             room__is_active=True,
-            user=user,
+            user=user_id,
             is_active=True,
         )
 
         serializer = ChatMessageCreateSerializer(
             data=request.data,
             context={
-                "user": request.user,
+                "user_id": user_id,
                 "room_id": chat_room_member.room_id,
             },
         )

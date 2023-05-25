@@ -2,7 +2,7 @@ from django.db.models import F, Prefetch, Subquery
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from core.utils import get_remaining_like_num
+from core.utils import get_remaining_like_num, get_user_object_with_profile
 from match.models import Match
 from profile_picture.models import ProfilePicture
 from user_profile.serializers import OppositeProfileSerializer
@@ -11,7 +11,7 @@ from user_profile.models import Profile
 
 class Feed(APIView):
     def get(self, request):
-        user = request.user
+        user = get_user_object_with_profile(request)
 
         remaining_like = get_remaining_like_num(user)
         profile_num = remaining_like if remaining_like > 0 else 1

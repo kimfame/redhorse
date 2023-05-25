@@ -10,8 +10,8 @@ class ProfilePictureSerializer(serializers.Serializer):
     image = serializers.ImageField()
 
     def create(self, validated_data):
-        user = self.context.get("user")
-        profile_picture_count = ProfilePicture.objects.filter(user=user).count()
+        user_id = self.context.get("user_id")
+        profile_picture_count = ProfilePicture.objects.filter(user=user_id).count()
 
         if profile_picture_count >= settings.MAX_PROFILE_PICTURE_NUM:
             raise serializers.ValidationError(
@@ -23,7 +23,7 @@ class ProfilePictureSerializer(serializers.Serializer):
             )
 
         new_profile_picture = ProfilePicture(
-            user=user,
+            user=user_id,
             image=validated_data.get("image"),
         )
 
@@ -34,7 +34,7 @@ class ProfilePictureSerializer(serializers.Serializer):
         return new_profile_picture
 
     def update(self, instance, validated_data):
-        user = self.context.get("user")
+        user_id = self.context.get("user_id")
 
         if instance.main == True:
             return instance
@@ -43,7 +43,7 @@ class ProfilePictureSerializer(serializers.Serializer):
             return instance
 
         ProfilePicture.objects.filter(
-            user=user,
+            user=user_id,
             main=True,
         ).update(main=False)
 

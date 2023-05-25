@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 
+from core.utils import get_user_object
 from profile_picture.models import ProfilePicture
 from user_profile.models import Profile
 from user_profile.serializers import (
@@ -21,7 +22,7 @@ class MyProfileViewSet(viewsets.ViewSet):
         serializer = CreateMyProfileSerializer(
             data=request.data,
             context={
-                "user": request.user,
+                "user": get_user_object(request),
                 "option_code_queryset": option_code_queryset,
             },
         )
@@ -35,7 +36,7 @@ class MyProfileViewSet(viewsets.ViewSet):
     def retrieve(self, request):
         profile = get_object_or_404(
             Profile.objects.prefetch_related("passions"),
-            user=request.user,
+            user=request.user.id,
         )
         serializer = MyProfileSerializer(profile)
         return Response(serializer.data)
@@ -43,7 +44,7 @@ class MyProfileViewSet(viewsets.ViewSet):
     def partial_update(self, request):
         profile = get_object_or_404(
             Profile.objects.prefetch_related("passions"),
-            user=request.user,
+            user=request.user.id,
         )
         option_code_queryset = self._get_profile_option_code_queryset()
 

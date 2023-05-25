@@ -3,7 +3,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from core.utils import get_remaining_like_num
+from core.utils import get_remaining_like_num, get_user_object_with_profile
 from match.models import Match
 from match.serializers import MatchSerializer
 from profile_picture.models import ProfilePicture
@@ -13,16 +13,16 @@ from user_profile.serializers import OppositeProfileSerializer
 
 class CountingLike(APIView):
     def get(self, request):
-        user = request.user
-        like_num = get_remaining_like_num(user)
+        user_id = request.user.id
+        like_num = get_remaining_like_num(user_id)
         return Response({"like_num": like_num})
 
 
 class MatchViewSet(viewsets.ViewSet):
     def list(self, request):
-        user = request.user
+        user_id = request.user.id
 
-        remaining_like = get_remaining_like_num(user)
+        remaining_like = get_remaining_like_num(user_id)
         profile_num = remaining_like if remaining_like > 0 else 1
 
         profiles = (
@@ -39,12 +39,14 @@ class MatchViewSet(viewsets.ViewSet):
                 user__is_active=True,
                 is_banned=False,
                 user__in=Subquery(
-                    Match.objects.filter(receiver=user, is_liked=True, is_matched=False)
+                    Match.objects.filter(
+                        receiver=user_id, is_liked=True, is_matched=False
+                    )
                     .values("sender")
                     .exclude(
                         sender__in=Subquery(
                             Match.objects.filter(
-                                sender=user, is_liked=False, is_matched=False
+                                sender=user_id, is_liked=False, is_matched=False
                             ).values("receiver")
                         )
                     )
@@ -56,7 +58,7 @@ class MatchViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
     def create(self, request):
-        user = request.user
+        user = get_user_object_with_profile(request)
         serializer = MatchSerializer(context={"user": user}, data=request.data)
 
         if serializer.is_valid():

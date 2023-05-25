@@ -33,7 +33,7 @@ class MatchSerializer(serializers.Serializer):
                         new_match.is_matched = True
 
                         cross_match.save()
-                        create_chat_room([sender, receiver])
+                        create_chat_room([new_match.sender, new_match.receiver])
                     new_match.save()
 
             except IntegrityError as e:

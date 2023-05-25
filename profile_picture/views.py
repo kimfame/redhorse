@@ -8,16 +8,16 @@ from profile_picture.serializers import ProfilePictureSerializer
 
 class ProfilePictureViewSet(viewsets.ViewSet):
     def list(self, request):
-        profile_pictures = ProfilePicture.objects.filter(user=request.user).order_by(
+        profile_pictures = ProfilePicture.objects.filter(user=request.user.id).order_by(
             "-main", "id"
         )
         serializer = ProfilePictureSerializer(profile_pictures, many=True)
         return Response(serializer.data)
 
     def create(self, request):
-        user = request.user
+        user_id = request.user.id
         serializer = ProfilePictureSerializer(
-            context={"user": user},
+            context={"user_id": user_id},
             data=request.data,
         )
 
@@ -28,12 +28,12 @@ class ProfilePictureViewSet(viewsets.ViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def partial_update(self, request, uuid=None):
-        user = request.user
-        profile_picture = get_object_or_404(ProfilePicture, uuid=uuid, user=user)
+        user_id = request.user.id
+        profile_picture = get_object_or_404(ProfilePicture, uuid=uuid, user=user_id)
         serializer = ProfilePictureSerializer(
             profile_picture,
             data=request.data,
-            context={"user": user},
+            context={"user_id": user_id},
             partial=True,
         )
         if serializer.is_valid():
@@ -42,11 +42,11 @@ class ProfilePictureViewSet(viewsets.ViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, uuid=None):
-        user = request.user
-        if ProfilePicture.objects.filter(uuid=uuid, user=user).exists() is False:
+        user_id = request.user.id
+        if ProfilePicture.objects.filter(uuid=uuid, user=user_id).exists() is False:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        profile_pictures = ProfilePicture.objects.filter(user=user).order_by(
+        profile_pictures = ProfilePicture.objects.filter(user=user_id).order_by(
             "-main", "id"
         )[:2]
 

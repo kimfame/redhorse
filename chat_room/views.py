@@ -33,7 +33,7 @@ def create_chat_room(user_list: list[User]) -> None:
 
 class ChatRoomViewSet(viewsets.ViewSet):
     def list(self, request):
-        user = request.user
+        user_id = request.user.id
 
         # prefetch_queryset = ProfilePicture.objects.order_by("-main", "id")[:1]
         # chat_rooms = (
@@ -56,7 +56,7 @@ class ChatRoomViewSet(viewsets.ViewSet):
         # )
 
         chat_room_list = ProfilePicture.objects.raw(
-            chat_room_list_query, {"id": str(user.id)}
+            chat_room_list_query, {"id": str(user_id)}
         )
 
         serializer = ChatRoomListSerializer(
@@ -66,7 +66,7 @@ class ChatRoomViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
     def retrieve(self, request, uuid=None):
-        user = request.user
+        user_id = request.user.id
 
         prefetch_queryset = ProfilePicture.objects.order_by("-main", "id")[:1]
         chat_room_members = (
@@ -80,9 +80,9 @@ class ChatRoomViewSet(viewsets.ViewSet):
             )
             .filter(
                 room__uuid=uuid,
-                room__users__id__exact=user.id,
+                room__users__id__exact=user_id,
             )
-            .exclude(user=user)
+            .exclude(user=user_id)
         )
 
         serializer = ChatRoomRetrieveSerializer(
@@ -93,11 +93,11 @@ class ChatRoomViewSet(viewsets.ViewSet):
         return Response({"room": uuid, "users": serializer.data})
 
     def partial_update(self, request, uuid=None):
-        user = request.user
+        user_id = request.user.id
         chat_room_member = get_object_or_404(
             ChatRoomMember.objects.select_related("room"),
             room__uuid=uuid,
-            user=user,
+            user=user_id,
             is_active=True,
         )
 

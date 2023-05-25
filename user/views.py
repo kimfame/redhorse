@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from core.utils import get_user_object
 from user.serializers import (
     UserCreateSerializer,
     UserUpdateSerializer,
@@ -36,10 +37,12 @@ class UserViewSet(viewsets.ViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def partial_update(self, request):
+        user = get_user_object(request)
+
         serializer = UserUpdateSerializer(
-            request.user,
+            user,
             data=request.data,
-            context={"user": request.user},
+            context={"user": user},
             partial=True,
         )
         if serializer.is_valid():
@@ -49,7 +52,7 @@ class UserViewSet(viewsets.ViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request):
-        user = request.user
+        user = get_user_object(request)
 
         if user.is_active:
             user.is_active = False

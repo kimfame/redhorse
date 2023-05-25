@@ -14,11 +14,11 @@ class ChatMessageCreateSerializer(serializers.Serializer):
     message = serializers.CharField(max_length=1000)
 
     def create(self, validated_data):
-        user = self.context.get("user")
+        user_id = self.context.get("user_id")
         room_id = self.context.get("room_id")
 
         return ChatMessage.objects.create(
             room_id=room_id,
-            user=user,
+            user_id=user_id,
             message=validated_data.get("message"),
         )

@@ -14,6 +14,7 @@ from django.contrib.auth.models import User
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import connection
 from django.db.models import ImageField
+from rest_framework.request import Request
 from PIL import Image
 
 from option_code.models import OptionCode
@@ -82,13 +83,27 @@ def get_random_verification_code() -> str:
     return f"{random.randint(100000, 999999)}"
 
 
-def get_remaining_like_num(user: User) -> int:
+def get_remaining_like_num(user_id: int) -> int:
     today_match = Match.objects.filter(
-        sender=user,
+        sender=user_id,
         created_at__date=date.today(),
     ).count()
 
     return settings.MAX_LIKE_NUM - today_match
+
+
+def get_user_object(request: Request) -> User:
+    if isinstance(request.user, User):
+        return request.user
+    else:
+        return User.objects.filter(id=request.user.id).first()
+
+
+def get_user_object_with_profile(request: Request) -> User:
+    if isinstance(request.user, User):
+        return request.user
+    else:
+        return User.objects.select_related("profile").filter(id=request.user.id).first()
 
 
 def is_adult(birthdate: date) -> bool:
