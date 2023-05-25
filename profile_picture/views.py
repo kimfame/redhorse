@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 
+from core.utils import get_user_object_with_profile
 from profile_picture.models import ProfilePicture
 from profile_picture.serializers import ProfilePictureSerializer
 
@@ -15,9 +16,9 @@ class ProfilePictureViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
     def create(self, request):
-        user_id = request.user.id
+        user = get_user_object_with_profile(request)
         serializer = ProfilePictureSerializer(
-            context={"user_id": user_id},
+            context={"user": user},
             data=request.data,
         )
 

@@ -14,11 +14,14 @@ from django.contrib.auth.models import User
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import connection
 from django.db.models import ImageField
+from django.http import Http404
+from django.shortcuts import get_object_or_404
 from rest_framework.request import Request
 from PIL import Image
 
-from option_code.models import OptionCode
 from match.models import Match
+from option_code.models import OptionCode
+from user_profile.models import Profile
 
 
 def calculate_age(birthdate: date) -> int:
@@ -96,14 +99,22 @@ def get_user_object(request: Request) -> User:
     if isinstance(request.user, User):
         return request.user
     else:
-        return User.objects.filter(id=request.user.id).first()
+        return get_object_or_404(User, id=request.user.id)
 
 
 def get_user_object_with_profile(request: Request) -> User:
     if isinstance(request.user, User):
-        return request.user
+        user = request.user
     else:
-        return User.objects.select_related("profile").filter(id=request.user.id).first()
+        user = get_object_or_404(
+            User.objects.select_related("profile"), id=request.user.id
+        )
+
+    try:
+        user.profile
+        return user
+    except Profile.DoesNotExist:
+        raise Http404
 
 
 def is_adult(birthdate: date) -> bool:
