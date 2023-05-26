@@ -27,20 +27,16 @@ LOCAL_FRONTEND_DOMAIN=
 DEV_FRONTEND_DOMAIN=
 PROD_FRONTEND_DOMAIN=
 
-# SMS Verification code expiration time in minute
+# Redhorse settings
 VERIFICATION_CODE_EXP_TIME=
-
-# Verified phone number expiration time in minute
 VERIFIED_PHONE_NUMBER_EXP_TIME=
-
-# Max passion number
 MAX_PASSION_NUM=
-
-# Password reset retry wait time
 PASSWORD_RESET_RETRY_WAIT_TIME=
-
-# Max profile picture number
 MAX_PROFILE_PICTURE_NUM=
-
-# Max like number for a day
 MAX_LIKE_NUM=
+
+# Pusher
+PUSHER_APP_ID=
+PUSHER_KEY=
+PUSHER_SECRET=
+PUSHER_CLUSTER=

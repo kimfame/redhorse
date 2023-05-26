@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from core.pusher import PusherTransmitter, PusherMessage
 from chat_message.models import ChatMessage
 
 
@@ -14,11 +15,23 @@ class ChatMessageCreateSerializer(serializers.Serializer):
     message = serializers.CharField(max_length=1000)
 
     def create(self, validated_data):
-        user_id = self.context.get("user_id")
-        room_id = self.context.get("room_id")
+        chat_room_member = self.context.get("chat_room_member")
 
-        return ChatMessage.objects.create(
-            room_id=room_id,
-            user_id=user_id,
+        chat_message = ChatMessage.objects.create(
+            room_id=chat_room_member.room.id,
+            user=chat_room_member.user,
             message=validated_data.get("message"),
         )
+
+        PusherTransmitter.send_chat_message(
+            PusherMessage(
+                room_uuid=str(chat_room_member.room.uuid),
+                user_uuid=str(chat_message.user),
+                message_uuid=str(chat_message.uuid),
+                message=chat_message.message,
+                created_datetime=chat_message.created_datetime.strftime(
+                    "%Y-%m-%d %H:%M:%S"
+                ),
+            )
+        )
+        return chat_message

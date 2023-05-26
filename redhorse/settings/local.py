@@ -56,6 +56,15 @@ SIMPLE_JWT = {
 }
 
 
+# Pusher
+
+PUSHER_APP_ID = env("PUSHER_APP_ID")
+PUSHER_KEY = env("PUSHER_KEY")
+PUSHER_SECRET = env("PUSHER_SECRET")
+PUSHER_CLUSTER = env("PUSHER_CLUSTER")
+PUSHER_SSL = True
+
+
 # Logging
 
 LOGGING = {

@@ -39,7 +39,7 @@ class CreateChatMessage(APIView):
         user_id = request.user.id
 
         chat_room_member = get_object_or_404(
-            ChatRoomMember.objects.select_related("room"),
+            ChatRoomMember.objects.select_related("room", "user__profile"),
             room__uuid=uuid,
             room__is_active=True,
             user=user_id,
@@ -49,8 +49,7 @@ class CreateChatMessage(APIView):
         serializer = ChatMessageCreateSerializer(
             data=request.data,
             context={
-                "user_id": user_id,
-                "room_id": chat_room_member.room_id,
+                "chat_room_member": chat_room_member,
             },
         )
 
