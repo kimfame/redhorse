@@ -103,30 +103,20 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 
 LANGUAGE_CODE = "en-us"
-
 TIME_ZONE = "Asia/Seoul"
-
 USE_I18N = True
-
 USE_L10N = False
-
 USE_TZ = False
-
 DATE_FORMAT = "Y-m-d"
-
 DATETIME_FORMAT = "Y-m-d H:i:s"
 
 
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = "static/"
-
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
-
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "staticfiles")]
-
 MEDIA_URL = "/media/"
-
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
@@ -135,83 +125,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-# Logging
-
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "filters": {
-        "require_debug_false": {
-            "()": "django.utils.log.RequireDebugFalse",
-        },
-        "require_debug_true": {
-            "()": "django.utils.log.RequireDebugTrue",
-        },
-    },
-    "formatters": {
-        "django.server": {
-            "()": "django.utils.log.ServerFormatter",
-            "format": "[{server_time}] {message}",
-            "style": "{",
-        },
-        "custom_formatter": {
-            "format": "{asctime}.{msecs:0<3.0f} [{levelname:^8}][{name}] {message}",
-            "datefmt": "%Y-%m-%d %H:%M:%S",
-            "style": "{",
-        },
-    },
-    "handlers": {
-        "console": {
-            "level": "INFO",
-            "filters": ["require_debug_true"],
-            "class": "logging.StreamHandler",
-        },
-        "django.server": {
-            "level": "INFO",
-            "class": "logging.StreamHandler",
-            "formatter": "django.server",
-        },
-        "file": {
-            "level": "DEBUG",
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": BASE_DIR / "logs/django.log",
-            "maxBytes": 1024 * 1024 * 10,  # 10 MB
-            "backupCount": 5,
-            "formatter": "custom_formatter",
-        },
-    },
-    "loggers": {
-        "django": {
-            "handlers": ["console", "file"],
-            "level": "INFO",
-        },
-        "django.server": {
-            "handlers": ["django.server", "file"],
-            "level": "INFO",
-            "propagate": False,
-        },
-        "scripts": {
-            "handlers": ["console", "file"],
-            "level": "INFO",
-        },
-        "core": {
-            "handlers": ["console", "file"],
-            "level": "INFO",
-        },
-    },
-}
-
-
 # Red Horse settings (Minimum time unit : minute)
 
-VERIFICATION_CODE_EXP_TIME = env("VERIFICATION_CODE_EXP_TIME", default=3)
-
-VERIFIED_PHONE_NUMBER_EXP_TIME = env("VERIFIED_PHONE_NUMBER_EXP_TIME", default=60)
-
-MAX_PASSION_NUM = env("MAX_PASSION_NUM", default=3)
-
-PASSWORD_RESET_RETRY_WAIT_TIME = env("PASSWORD_RESET_RETRY_WAIT_TIME", default=10)
-
-MAX_PROFILE_PICTURE_NUM = env("MAX_PROFILE_PICTURE_NUM", default=9)
-
 MAX_LIKE_NUM = env("MAX_LIKE_NUM", default=5)
+MAX_PASSION_NUM = env("MAX_PASSION_NUM", default=3)
+MAX_PROFILE_PICTURE_NUM = env("MAX_PROFILE_PICTURE_NUM", default=9)
+PASSWORD_RESET_RETRY_WAIT_TIME = env("PASSWORD_RESET_RETRY_WAIT_TIME", default=10)
+VERIFICATION_CODE_EXP_TIME = env("VERIFICATION_CODE_EXP_TIME", default=3)
+VERIFIED_PHONE_NUMBER_EXP_TIME = env("VERIFIED_PHONE_NUMBER_EXP_TIME", default=60)

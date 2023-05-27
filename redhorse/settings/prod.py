@@ -32,6 +32,12 @@ REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": [
         "rest_framework.renderers.JSONRenderer",
     ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTStatelessUserAuthentication",
+    ],
 }
 
 
@@ -53,6 +59,15 @@ SIMPLE_JWT = {
 }
 
 
+# Pusher
+
+PUSHER_APP_ID = env("PUSHER_APP_ID")
+PUSHER_KEY = env("PUSHER_KEY")
+PUSHER_SECRET = env("PUSHER_SECRET")
+PUSHER_CLUSTER = env("PUSHER_CLUSTER")
+PUSHER_SSL = True
+
+
 # Admin URL
 
 ADMIN_URL = env("ADMIN_URL")
@@ -70,3 +85,76 @@ SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = "DENY"
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+
+
+# Logging
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "filters": {
+        "require_debug_false": {
+            "()": "django.utils.log.RequireDebugFalse",
+        },
+        "require_debug_true": {
+            "()": "django.utils.log.RequireDebugTrue",
+        },
+    },
+    "formatters": {
+        "django.server": {
+            "()": "django.utils.log.ServerFormatter",
+            "format": "[{server_time}] {message}",
+            "style": "{",
+        },
+        "custom_formatter": {
+            "format": "{asctime}.{msecs:0<3.0f} [{levelname:^8}][{name}] {message}",
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "filters": ["require_debug_true"],
+            "class": "logging.StreamHandler",
+        },
+        "django.server": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "django.server",
+        },
+        "file": {
+            "level": "DEBUG",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": BASE_DIR / "logs/django.log",
+            "maxBytes": 1024 * 1024 * 10,  # 10 MB
+            "backupCount": 5,
+            "formatter": "custom_formatter",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+        },
+        "django.server": {
+            "handlers": ["django.server", "file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "scripts": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+        },
+        "core": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+        },
+    },
+}
+
+for app in PROJECT_APPS:
+    LOGGING["loggers"][app.split(".")[0]] = {
+        "handlers": ["console", "file"],
+        "level": "INFO",
+    }

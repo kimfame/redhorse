@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from .base import *
 
+
 DEBUG = True
 
 SECRET_KEY = env("SECRET_KEY")
@@ -15,8 +16,6 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
-
-ADMIN_URL = env("ADMIN_URL", default="admin/")
 
 
 # Django REST Framework
@@ -32,7 +31,6 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         # "rest_framework_simplejwt.authentication.JWTAuthentication",
         "rest_framework_simplejwt.authentication.JWTStatelessUserAuthentication",
-        # "core.authentication.CustomJWTAuthentication",
         "rest_framework.authentication.SessionAuthentication",
     ],
 }
@@ -133,13 +131,11 @@ LOGGING = {
             "handlers": ["console", "file"],
             "level": "INFO",
         },
-        "user": {
-            "handlers": ["console", "file"],
-            "level": "INFO",
-        },
-        "user_profile": {
-            "handlers": ["console", "file"],
-            "level": "INFO",
-        },
     },
 }
+
+for app in PROJECT_APPS:
+    LOGGING["loggers"][app.split(".")[0]] = {
+        "handlers": ["console", "file"],
+        "level": "INFO",
+    }
