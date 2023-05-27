@@ -58,7 +58,7 @@ match_received_likes = MatchViewSet.as_view({"get": "list"})
 
 chat_room_list = ChatRoomViewSet.as_view({"get": "list"})
 chat_room_detail = ChatRoomViewSet.as_view({"get": "retrieve"})
-chat_room_out = ChatRoomViewSet.as_view({"patch": "partial_update"})
+chat_room_leave = ChatRoomViewSet.as_view({"patch": "partial_update"})
 
 chat_message_list = ChatMessageListViewSet.as_view({"get": "list"})
 
@@ -94,7 +94,7 @@ urlpatterns = [
         CreateChatMessage.as_view(),
         name="chat_message_create",
     ),
-    path("chats/<uuid:uuid>/out/", chat_room_out, name="chat_room_out"),
+    path("chats/<uuid:uuid>/leave/", chat_room_leave, name="chat_room_leave"),
     path("feed", Feed.as_view(), name="feed"),
     path("genders", GenderList.as_view(), name="gender_list"),
     path(

@@ -1,6 +1,7 @@
 import pusher
 
 from dataclasses import dataclass
+from uuid import UUID
 
 from django.conf import settings
 
@@ -60,4 +61,14 @@ class PusherTransmitter:
             message.channel,
             message.event,
             message.data,
+        )
+
+    @classmethod
+    def leave_chat_room(cls, room_uuid: UUID) -> None:
+        cls.pusher_client.trigger(
+            str(room_uuid),
+            "leave_chat_room",
+            {
+                "exit": True,
+            },
         )

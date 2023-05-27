@@ -63,6 +63,11 @@ PUSHER_CLUSTER = env("PUSHER_CLUSTER")
 PUSHER_SSL = True
 
 
+# Admin URL
+
+ADMIN_URL = env("ADMIN_URL", default="admin/")
+
+
 # Logging
 
 LOGGING = {

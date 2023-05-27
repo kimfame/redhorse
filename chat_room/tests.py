@@ -48,7 +48,7 @@ class ChatRoomTestCase(APITestCase):
     def test_can_leave_chat_room(self):
         room = ChatRoomFactory(users=[self.profile.user])
 
-        url = reverse("chat_room_out", kwargs={"uuid": room.uuid})
+        url = reverse("chat_room_leave", kwargs={"uuid": room.uuid})
         response = self.client.patch(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 

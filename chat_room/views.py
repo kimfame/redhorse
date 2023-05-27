@@ -9,6 +9,7 @@ from rest_framework.response import Response
 
 from chat_room.models import ChatRoom, ChatRoomMember
 from chat_room.serializers import ChatRoomListSerializer, ChatRoomRetrieveSerializer
+from core.pusher import PusherTransmitter
 from core.queries import chat_room_list_query
 from profile_picture.models import ProfilePicture
 
@@ -115,5 +116,7 @@ class ChatRoomViewSet(viewsets.ViewSet):
                 {"error": ["시스템 에러로 인해서 채팅방을 나갈 수 없습니다. 추후 다시 시도해주세요."]},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
+
+        PusherTransmitter.leave_chat_room(chat_room.uuid)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
