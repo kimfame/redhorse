@@ -1,7 +1,5 @@
-import random
 import logging
 
-from django.conf import settings
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -9,7 +7,7 @@ from rest_framework.test import APITestCase
 from user_profile.models import Profile
 from core.test import get_client_with_login_status
 from scripts import base_data_generator
-from user_profile.factories import ProfileFactory, PROFILE_OPTION_VALUES
+from user_profile.factories import ProfileFactory
 
 logger = logging.getLogger(__name__)
 
@@ -26,9 +24,7 @@ class CreateProfileTestCase(APITestCase):
             "gender": profile.gender,
             "preferred_gender": profile.preferred_gender,
             "mbti": profile.mbti,
-            "passions": random.sample(
-                PROFILE_OPTION_VALUES["passion"], settings.MAX_PASSION_NUM
-            ),
+            "passions": profile.passions,
             "height": profile.height,
             "religion": profile.religion,
             "smoking_status": profile.smoking_status,
@@ -58,9 +54,7 @@ class UpdateProfileTestCase(APITestCase):
             "gender": new_profile.gender,
             "preferred_gender": new_profile.preferred_gender,
             "mbti": new_profile.mbti,
-            "passions": random.sample(
-                PROFILE_OPTION_VALUES["passion"], settings.MAX_PASSION_NUM
-            ),
+            "passions": new_profile.passions,
             "height": new_profile.height,
             "religion": new_profile.religion,
             "smoking_status": new_profile.smoking_status,

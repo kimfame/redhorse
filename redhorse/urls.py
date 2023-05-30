@@ -20,7 +20,6 @@ from option_code.views import (
     ReligionList,
     LocationList,
 )
-from passion.views import PassionViewSet
 from profile_picture.views import ProfilePictureViewSet
 from match.views import MatchViewSet, CountingLike
 from chat_room.views import ChatRoomViewSet
@@ -63,7 +62,6 @@ chat_room_leave = ChatRoomViewSet.as_view({"patch": "partial_update"})
 chat_message_list = ChatMessageListViewSet.as_view({"get": "list"})
 
 router = DefaultRouter()
-router.register("passions", PassionViewSet, basename="passion")
 
 urlpatterns = [
     path("", include(router.urls)),

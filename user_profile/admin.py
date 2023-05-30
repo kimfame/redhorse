@@ -14,7 +14,7 @@ class ProfileAdmin(admin.ModelAdmin):
         "gender",
         "preferred_gender",
         "mbti",
-        "passion",
+        "passions",
         "height",
         "religion",
         "smoking_status",
@@ -26,7 +26,3 @@ class ProfileAdmin(admin.ModelAdmin):
         "created_datetime",
     ]
     list_display_links = ["user"]
-    filter_horizontal = ["passions"]
-
-    def passion(self, obj):
-        return ", ".join([passion.name for passion in obj.passions.all()])
