@@ -1,13 +1,12 @@
 import logging
 
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.models import User
 from django.db import IntegrityError, transaction
 from django.db.models import Prefetch
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 
-from chat_room.models import ChatRoom, ChatRoomMember
+from chat_room.models import ChatRoomMember
 from chat_room.serializers import ChatRoomListSerializer, ChatRoomRetrieveSerializer
 from core.pusher import PusherTransmitter
 from core.queries import chat_room_list_query
@@ -15,21 +14,6 @@ from profile_picture.models import ProfilePicture
 
 
 logger = logging.getLogger(__name__)
-
-
-def create_chat_room(user_list: list[User]) -> None:
-    chat_room = ChatRoom.objects.create()
-
-    chat_member_list = []
-
-    for user in user_list:
-        chat_member = ChatRoomMember(
-            room=chat_room,
-            user=user,
-        )
-        chat_member_list.append(chat_member)
-
-    ChatRoomMember.objects.bulk_create(chat_member_list)
 
 
 class ChatRoomViewSet(viewsets.ViewSet):

@@ -1,10 +1,11 @@
 import logging
 
+from django.contrib.auth.models import User
 from django.db import IntegrityError, transaction
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
-from chat_room.views import create_chat_room
+from chat_room.models import ChatRoom, ChatRoomMember
 from core.utils import get_remaining_like_num
 from match.models import Match
 from user_profile.models import Profile
@@ -18,29 +19,45 @@ class MatchSerializer(serializers.Serializer):
     is_liked = serializers.BooleanField()
 
     def create(self, validated_data):
-        def cross_check_match(new_match: Match) -> None:
-            try:
-                with transaction.atomic():
-                    cross_match = Match.objects.filter(
-                        sender=new_match.receiver,
-                        receiver=new_match.sender,
-                        is_liked=True,
-                        is_matched=False,
-                    ).first()
+        def create_chat_room(user_list: list[User]) -> None:
+            chat_room = ChatRoom.objects.create()
 
-                    if cross_match:
+            chat_member_list = []
+
+            for user in user_list:
+                chat_member = ChatRoomMember(
+                    room=chat_room,
+                    user=user,
+                )
+                chat_member_list.append(chat_member)
+
+            ChatRoomMember.objects.bulk_create(chat_member_list)
+
+        def cross_check_match(new_match: Match) -> None:
+            cross_match = Match.objects.filter(
+                sender=new_match.receiver,
+                receiver=new_match.sender,
+                is_liked=True,
+                is_matched=False,
+            ).first()
+
+            if cross_match:
+                try:
+                    with transaction.atomic():
                         cross_match.is_matched = True
                         new_match.is_matched = True
-
                         cross_match.save()
-                        create_chat_room([new_match.sender, new_match.receiver])
-                    new_match.save()
+                        new_match.save()
 
-            except IntegrityError as e:
-                logger.error(e)
-                raise serializers.ValidationError(
-                    {"error": ["시스템 에러로 인해 Like를 보낼 수 없습니다. 추후 다시 시도해주세요."]}
-                )
+                        create_chat_room([new_match.sender, new_match.receiver])
+
+                except IntegrityError as e:
+                    logger.error(e)
+                    raise serializers.ValidationError(
+                        {"error": ["시스템 에러로 인해 Like를 보낼 수 없습니다. 추후 다시 시도해주세요."]}
+                    )
+            else:
+                new_match.save()
 
         sender = self.context.get("user")
 
