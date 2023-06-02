@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from PIL import Image
 
-from core.test import get_client_with_login_status
+from core.utils import get_client_with_login_status
 from profile_picture.factories import ProfilePictureFactory
 from scripts import base_data_generator
 from user_profile.tests import ProfileFactory

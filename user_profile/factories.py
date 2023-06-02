@@ -5,8 +5,7 @@ import random
 from factory.django import DjangoModelFactory
 from faker import Faker
 
-from core.test import get_random_adult_birthdate
-from core.utils import get_option_code_list
+from core.utils import get_option_code_list, get_random_adult_birthdate
 from user.factories import UserFactory
 from user_profile import choices
 from user_profile.models import Profile

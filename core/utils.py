@@ -12,15 +12,17 @@ from secrets import choice
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.db import connection
 from django.db.models import ImageField
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from rest_framework.request import Request
+from rest_framework.test import APIClient
+from rest_framework_simplejwt.tokens import RefreshToken
 from PIL import Image
 
 from match.models import Match
 from option_code.models import OptionCode
+from user.factories import UserFactory
 from user_profile.models import Profile
 
 
@@ -52,14 +54,18 @@ def compress_image(image: ImageField):
     return new_image
 
 
-def fetchall_from_db(query: str, query_params: dict[str, str]) -> list[dict[str, any]]:
-    with connection.cursor() as cursor:
-        cursor.execute(query, query_params)
-        description = cursor.description
-        rows = cursor.fetchall()
+def get_client_with_login_status(client: APIClient = APIClient(), user: User = None):
+    user = user if user else UserFactory()
+    refresh = RefreshToken.for_user(user)
+    client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
+    return client
 
-    columns = [col[0] for col in description]
-    return [dict(zip(columns, row)) for row in rows]
+
+def get_current_and_past_time(minutes: int) -> tuple[datetime, datetime]:
+    end_datetime = datetime.now()
+    start_datetime = end_datetime - timedelta(minutes=minutes)
+
+    return (start_datetime, end_datetime)
 
 
 def get_option_code_list(group_name: str) -> list[str]:
@@ -71,11 +77,12 @@ def get_option_code_list(group_name: str) -> list[str]:
     )
 
 
-def get_current_and_past_time(minutes: int) -> tuple[datetime, datetime]:
-    end_datetime = datetime.now()
-    start_datetime = end_datetime - timedelta(minutes=minutes)
+def get_random_adult_birthdate() -> tuple[date, date]:
+    today = date.today()
+    end_date = date(year=(today.year - 20), month=today.month, day=today.day)
+    start_date = date(year=(today.year - 100), month=today.month, day=today.day)
 
-    return (start_datetime, end_datetime)
+    return start_date, end_date
 
 
 def get_random_string(len: int) -> str:

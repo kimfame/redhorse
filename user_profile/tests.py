@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from user_profile.models import Profile
-from core.test import get_client_with_login_status
+from core.utils import get_client_with_login_status
 from scripts import base_data_generator
 from user_profile.factories import ProfileFactory
 

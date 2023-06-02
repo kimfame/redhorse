@@ -5,7 +5,7 @@ from faker import Faker
 
 from chat_room.factories import ChatRoomFactory
 from chat_message.factories import ChatMessageFactory
-from core.test import get_client_with_login_status
+from core.utils import get_client_with_login_status
 from scripts import base_data_generator
 from user_profile.tests import ProfileFactory
 
