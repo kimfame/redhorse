@@ -36,26 +36,6 @@ class ChatRoomViewSet(viewsets.ViewSet):
     def list(self, request):
         user_id = request.user.id
 
-        # prefetch_queryset = ProfilePicture.objects.order_by("-main", "id")[:1]
-        # chat_rooms = (
-        #     ChatRoomMember.objects.select_related("room", "user__profile")
-        #     .prefetch_related(
-        #         Prefetch(
-        #             "user__profilepicture_set",
-        #             queryset=prefetch_queryset,
-        #             to_attr="main_profile_picture",
-        #         )
-        #     )
-        #     .filter(
-        #         ~Q(user=user),
-        #         room__in=Subquery(
-        #             ChatRoomMember.objects.filter(user=user, is_active=True).values(
-        #                 "room"
-        #             )
-        #         ),
-        #     )
-        # )
-
         chat_room_list = ProfilePicture.objects.raw(
             chat_room_list_query, {"id": str(user_id)}
         )
