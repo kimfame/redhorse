@@ -91,3 +91,26 @@ class ReadProfileTestCase(APITestCase):
         url = reverse("opposite_profile", kwargs={"uuid": new_profile.uuid})
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class ProfileOptionTestCase(APITestCase):
+    def setUp(self):
+        base_data_generator.run()
+        self.client = get_client_with_login_status(self.client)
+
+    def test_can_get_option_list(self):
+        option_field_names = [
+            "genders",
+            "preferred-genders",
+            "mbti-types",
+            "drinking-status",
+            "religions",
+            "locations",
+            "passions",
+        ]
+
+        for field_name in option_field_names:
+            url = reverse("option_list", kwargs={"option_field_name": field_name})
+            response = self.client.get(url)
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+            self.assertTrue(response.data)
