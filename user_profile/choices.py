@@ -3,14 +3,14 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Gender(models.TextChoices):
-    MALE = "M", _("Male")
-    FEMALE = "F", _("Female")
+    MALE = "M", _("남성")
+    FEMALE = "F", _("여성")
 
 
 class PreferredGender(models.TextChoices):
-    MALE = "M", _("Male")
-    FEMALE = "F", _("Female")
-    ALL = "A", _("All")
+    MALE = "M", _("남성")
+    FEMALE = "F", _("여성")
+    ALL = "A", _("모두")
 
 
 class DrinkingStatus(models.TextChoices):

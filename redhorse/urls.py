@@ -11,15 +11,7 @@ from rest_framework_simplejwt.views import (
 
 from phone.views import VerificationCodeSender, CodeVerification
 from user.views import UserViewSet, PasswordReset
-from user_profile.views import MyProfileViewSet, OppositeProfileViewSet
-from option_code.views import (
-    GenderList,
-    PreferredGenderList,
-    MBTIList,
-    DrinkingStatusList,
-    ReligionList,
-    LocationList,
-)
+from user_profile.views import MyProfileViewSet, OppositeProfileViewSet, ProfileOption
 from profile_picture.views import ProfilePictureViewSet
 from match.views import MatchViewSet, CountingLike
 from chat_room.views import ChatRoomViewSet
@@ -94,14 +86,11 @@ urlpatterns = [
     ),
     path("chats/<uuid:uuid>/leave/", chat_room_leave, name="chat_room_leave"),
     path("feed", Feed.as_view(), name="feed"),
-    path("genders", GenderList.as_view(), name="gender_list"),
     path(
-        "preferred-genders", PreferredGenderList.as_view(), name="preferred_gender_list"
+        "option/profile/<str:option_field_name>",
+        ProfileOption.as_view(),
+        name="option_list",
     ),
-    path("mbti-types", MBTIList.as_view(), name="mbti_list"),
-    path("drinking-status", DrinkingStatusList.as_view(), name="drinking_status_list"),
-    path("religions", ReligionList.as_view(), name="religion_list"),
-    path("locations", LocationList.as_view(), name="location_list"),
 ]
 
 
