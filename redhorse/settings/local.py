@@ -33,6 +33,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTStatelessUserAuthentication",
         "rest_framework.authentication.SessionAuthentication",
     ],
+    "TEST_REQUEST_DEFAULT_FORMAT": "json",
 }
 
 

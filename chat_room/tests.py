@@ -2,7 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from core.test import get_client_with_login_status
+from core.utils import get_client_with_login_status
 from chat_room.factories import ChatRoomFactory
 from chat_room.models import ChatRoomMember, ChatRoom
 from match.factories import MatchFactory

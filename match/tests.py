@@ -2,8 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from core.test import get_client_with_login_status
-from core.utils import get_remaining_like_num
+from core.utils import get_client_with_login_status, get_remaining_like_num
 from match.factories import MatchFactory
 from scripts import base_data_generator
 from user_profile.tests import ProfileFactory

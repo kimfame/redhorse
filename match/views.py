@@ -28,7 +28,6 @@ class MatchViewSet(viewsets.ViewSet):
         profiles = (
             Profile.objects.select_related("user")
             .prefetch_related(
-                "passions",
                 Prefetch(
                     "user__profilepicture_set",
                     queryset=ProfilePicture.objects.order_by("-main", "id"),

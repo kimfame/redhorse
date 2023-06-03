@@ -27,11 +27,10 @@ DJANGO_APPS = [
 ]
 
 PROJECT_APPS = [
-    "phone",
-    "passion",
     "option_code",
-    "user_profile",
+    "phone",
     "user",
+    "user_profile",
     "profile_picture",
     "match",
     "chat_room",

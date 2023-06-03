@@ -1,8 +1,7 @@
 import logging
 
 from option_code.models import OptionCode, OptionCodeGroup
-from passion.models import Passion
-from .base_data import option_code_list, passion_list
+from .base_data import option_code_list
 
 logger = logging.getLogger(__name__)
 
@@ -10,7 +9,6 @@ logger = logging.getLogger(__name__)
 def run():
     logger.info("Run base data generator")
     generate_option_codes()
-    generate_passion_data()
     logger.info("Finished.")
 
 
@@ -33,17 +31,3 @@ def generate_option_codes():
             )
 
         OptionCode.objects.bulk_create(bulk_list)
-
-
-def generate_passion_data():
-    logger.info("Create passion data")
-
-    if Passion.objects.all().exists():
-        return
-
-    bulk_list = []
-
-    for passion in passion_list:
-        bulk_list.append(Passion(name=passion))
-
-    Passion.objects.bulk_create(bulk_list)
