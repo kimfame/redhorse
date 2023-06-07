@@ -8,7 +8,7 @@ from chat_room.models import ChatRoom
 
 
 class ChatMessage(TimeStampedModel):
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     room = models.ForeignKey(ChatRoom, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     message = models.CharField(max_length=1000)

@@ -13,7 +13,7 @@ def get_profile_picture_path(instance, filename):
 
 class ProfilePicture(TimeStampedModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     main = models.BooleanField(default=False)
     image = models.ImageField(upload_to=get_profile_picture_path)
 
