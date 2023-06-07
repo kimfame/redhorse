@@ -21,7 +21,7 @@ class ChatRoom(TimeStampedModel):
 
 class ChatRoomMember(TimeStampedModel):
     room = models.ForeignKey(ChatRoom, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL)
     is_active = models.BooleanField(default=True)
 
     class Meta:
