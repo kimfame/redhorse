@@ -17,7 +17,7 @@ class ChatMessageCreateSerializer(serializers.Serializer):
     def create(self, validated_data):
         chat_room_member = self.context.get("chat_room_member")
 
-        chat_message = ChatMessage.objects.create(
+        new_message = ChatMessage.objects.create(
             room_id=chat_room_member.room.id,
             user=chat_room_member.user,
             message=validated_data.get("message"),
@@ -26,12 +26,12 @@ class ChatMessageCreateSerializer(serializers.Serializer):
         PusherTransmitter.send_chat_message(
             PusherMessage(
                 room_uuid=str(chat_room_member.room.uuid),
-                user_uuid=str(chat_message.user),
-                message_uuid=str(chat_message.uuid),
-                message=chat_message.message,
-                created_datetime=chat_message.created_datetime.strftime(
+                user_uuid=str(chat_room_member.user.profile.uuid),
+                message_uuid=str(new_message.uuid),
+                message=validated_data.get("message"),
+                created_datetime=new_message.created_datetime.strftime(
                     "%Y-%m-%d %H:%M:%S"
                 ),
             )
         )
-        return chat_message
+        return new_message
