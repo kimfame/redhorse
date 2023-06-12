@@ -7,10 +7,6 @@ DEBUG = False
 
 SECRET_KEY = env("SECRET_KEY")
 
-ALLOWED_HOSTS += [
-    env("DEV_BACKEND_DOMAIN"),
-]
-
 
 # Database
 
@@ -39,13 +35,6 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTStatelessUserAuthentication",
     ],
 }
-
-
-# CORS
-
-CORS_ALLOWED_ORIGINS = [
-    f"https://{env('DEV_FRONTEND_DOMAIN')}",
-]
 
 
 # Simple JWT

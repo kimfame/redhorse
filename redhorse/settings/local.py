@@ -37,13 +37,6 @@ REST_FRAMEWORK = {
 }
 
 
-# CORS
-
-CORS_ALLOWED_ORIGINS = [
-    f"http://{env('LOCAL_FRONTEND_DOMAIN')}",
-]
-
-
 # Simple JWT
 
 SIMPLE_JWT = {

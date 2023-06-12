@@ -6,13 +6,20 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
-
 
 # Env
 
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+
+
+# allowed hosts
+
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    env("BACKEND_DOMAIN"),
+]
 
 
 # Application definition
@@ -132,3 +139,10 @@ MAX_PROFILE_PICTURE_NUM = env("MAX_PROFILE_PICTURE_NUM", default=9)
 PASSWORD_RESET_RETRY_WAIT_TIME = env("PASSWORD_RESET_RETRY_WAIT_TIME", default=10)
 VERIFICATION_CODE_EXP_TIME = env("VERIFICATION_CODE_EXP_TIME", default=3)
 VERIFIED_PHONE_NUMBER_EXP_TIME = env("VERIFIED_PHONE_NUMBER_EXP_TIME", default=60)
+
+
+# CORS
+
+CORS_ALLOWED_ORIGINS = [
+    env("FRONTEND_URL"),
+]
