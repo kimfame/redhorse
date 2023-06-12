@@ -94,13 +94,12 @@ urlpatterns = [
 ]
 
 
-if settings.DEBUG:
-    urlpatterns += [
-        path("admin/", admin.site.urls),
-    ]
-    urlpatterns.extend(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)),
-else:
-    urlpatterns.append(path(settings.ADMIN_URL, admin.site.urls))
+# Admin URL
+urlpatterns.append(path(settings.ADMIN_URL, admin.site.urls))
+
+
+# Media URL
+urlpatterns.extend(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
 
 
 # Simple JWT
