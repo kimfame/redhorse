@@ -127,8 +127,8 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
 
 class PasswordResetSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    phone_number = serializers.CharField()
+    username = serializers.CharField(write_only=True)
+    phone_number = serializers.CharField(write_only=True)
 
     def create(self, validated_data):
         user_phone = (

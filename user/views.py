@@ -1,7 +1,6 @@
-from rest_framework import viewsets, status
+from rest_framework import mixins, status, viewsets
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from core.utils import get_user_object
@@ -61,13 +60,7 @@ class UserViewSet(viewsets.ViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class PasswordReset(APIView):
+class PasswordReset(viewsets.GenericViewSet, mixins.CreateModelMixin):
     permission_classes = [AllowAny]
-
-    def post(self, request):
-        serializer = PasswordResetSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(status=status.HTTP_200_OK)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    serializer_class = PasswordResetSerializer
+    http_method_names = ["post"]

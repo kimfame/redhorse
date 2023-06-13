@@ -1,8 +1,6 @@
 from django.conf import settings
-from rest_framework import status
+from rest_framework import mixins, viewsets
 from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from core.utils import get_current_and_past_time
 from phone.models import PhoneVerificationHistory
@@ -12,28 +10,16 @@ from phone.serializers import (
 )
 
 
-class VerificationCodeSender(APIView):
+class VerificationCodeSender(viewsets.GenericViewSet, mixins.CreateModelMixin):
     permission_classes = [AllowAny]
-
-    def post(self, request):
-        serializer = PhoneVerificationHistoryCreateSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    serializer_class = PhoneVerificationHistoryCreateSerializer
+    http_method_names = ["post"]
 
 
-class CodeVerification(APIView):
+class CodeVerification(viewsets.GenericViewSet, mixins.CreateModelMixin):
     permission_classes = [AllowAny]
-
-    def post(self, request):
-        serializer = PhoneVerificationHistoryUpdateSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    serializer_class = PhoneVerificationHistoryUpdateSerializer
+    http_method_names = ["post"]
 
 
 def get_verified_phone_number(uuid: str) -> PhoneVerificationHistory:

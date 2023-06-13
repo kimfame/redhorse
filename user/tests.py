@@ -96,7 +96,7 @@ class ChangePasswordTestCase(APITestCase):
 
 class ResetPassword(APITestCase):
     def setUp(self):
-        self.url = reverse("reset_password")
+        self.url = reverse("reset_password-list")
         self.user_phone = UserPhoneFactory()
 
     def test_can_reset_password(self):
@@ -107,4 +107,4 @@ class ResetPassword(APITestCase):
                 "username": self.user_phone.user.username,
             },
         )
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)

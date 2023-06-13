@@ -54,15 +54,15 @@ chat_room_leave = ChatRoomViewSet.as_view({"patch": "partial_update"})
 chat_message_list = ChatMessageListViewSet.as_view({"get": "list"})
 
 router = DefaultRouter()
+router.register("phone/send-code", VerificationCodeSender, basename="send_code")
+router.register("phone/verify", CodeVerification, basename="verify_code")
+router.register("users/reset-password", PasswordReset, basename="reset_password")
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("phone/send-code/", VerificationCodeSender.as_view(), name="send_code"),
-    path("phone/verify/", CodeVerification.as_view(), name="verify_code"),
     path("users/", user_create, name="create_user"),
     path("users/me", user_delete, name="delete_user"),
     path("users/change-password/", change_password, name="change_password"),
-    path("users/reset-password/", PasswordReset.as_view(), name="reset_password"),
     path("users/me/profile/", my_profile_detail, name="my_profile"),
     path("users/<uuid:uuid>/profile", opposite_profile_detail, name="opposite_profile"),
     path(

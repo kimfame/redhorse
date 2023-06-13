@@ -9,7 +9,7 @@ from phone.factories import PhoneVerificationHistoryFactory
 
 class CreatePhoneVerificationHistoryTestCase(APITestCase):
     def setUp(self):
-        self.url = reverse("send_code")
+        self.url = reverse("send_code-list")
 
     def test_can_not_create_phone_verification_history(self):
         response = self.client.post(
@@ -28,7 +28,7 @@ class CreatePhoneVerificationHistoryTestCase(APITestCase):
 
 class UpdatePhoneVerificationHistoryTestCase(APITestCase):
     def setUp(self):
-        self.url = reverse("verify_code")
+        self.url = reverse("verify_code-list")
         self.verification_history = PhoneVerificationHistoryFactory()
 
     def test_can_not_verify_code(self):
@@ -49,4 +49,4 @@ class UpdatePhoneVerificationHistoryTestCase(APITestCase):
                 "verification_code": self.verification_history.verification_code,
             },
         )
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
