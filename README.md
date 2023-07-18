@@ -5,8 +5,6 @@
 
 간단한 온라인 매칭 서비스입니다.
 
-프로젝트 설명은 [뼈빌런 블로그](https://bonevillain.tistory.com/)를 참고해주세요.
-
 ## Requirements
 
 - Python 3.11
